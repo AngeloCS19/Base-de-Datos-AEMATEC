@@ -2,10 +2,39 @@
 <html lang="es">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="assets/logo-aematec-compas.svg">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
   <script src="assets/firebase-config.js"></script>
-  <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Montserrat','sans-serif'],serif:['Source Serif 4','serif']}}}}</script><title>Subir material — Biblioteca AEMATEC</title>
+  <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Montserrat','sans-serif'],serif:['Source Serif 4','serif']}}}}</script>  <style>
+    @media (max-width: 767px) {
+      body.w-\[1440px\] { width: 100% !important; overflow-x: hidden; }
+      header > div { width: auto !important; margin-left: 1rem; margin-right: 1rem; }
+      header { height: auto !important; padding: 1rem 0; }
+      header nav { flex-wrap: wrap; justify-content: center; gap: 0.75rem 1rem !important; }
+      header nav a { font-size: 0.75rem; }
+      header > div > a { gap: 0.75rem; }
+      header > div > a img { width: 105px; }
+      header > div > a > span { font-size: 0.9rem; }
+      [data-design-id="background-content-0d3e64"] > div { width: auto !important; margin-left: 1rem; margin-right: 1rem; }
+      [data-design-id="background-content-0d3e64"] .grid { grid-template-columns: 1fr; }
+      [data-design-id="upload-dialog-section-c3f81a"] { padding: 1rem; }
+      [data-design-id="upload-dialog-card-d6e09b"] { width: 100%; }
+      [data-design-id="upload-dialog-header-0b615a"] { padding: 1.25rem; align-items: flex-start; }
+      [data-design-id="upload-dialog-header-0b615a"] h1 { font-size: 1.25rem; }
+      #upload-material-form { padding: 1.25rem; }
+      #upload-material-form > div:first-child { grid-template-columns: 1fr; }
+      #upload-material-form > div:first-child > .col-span-2 { grid-column: span 1; }
+      [data-design-id="upload-form-footer-8f639e"] { align-items: stretch; flex-direction: column; gap: 1rem; }
+      [data-design-id="upload-form-footer-8f639e"] > div { width: 100%; }
+      [data-design-id="upload-form-footer-8f639e"] a, [data-design-id="upload-form-footer-8f639e"] button { flex: 1; justify-content: center; }
+    }
+    @media (min-width: 768px) and (max-width: 1279px) {
+      body.w-\[1440px\] { width: 100% !important; overflow-x: hidden; }
+      header > div, [data-design-id="background-content-0d3e64"] > div { width: auto !important; margin-left: 2rem; margin-right: 2rem; }
+    }
+  </style>
+  <title>Subir material — Biblioteca AEMATEC</title>
 </head>
 <body class="w-[1440px] bg-[#F4F8FA] text-[#0D2B45] font-serif" style="background-image: radial-gradient(circle at 12% 18%, rgba(0, 175, 193, 0.13) 0, rgba(0, 175, 193, 0.13) 1.2px, transparent 1.8px), radial-gradient(circle at 84% 72%, rgba(13, 43, 69, 0.09) 0, rgba(13, 43, 69, 0.09) 1.2px, transparent 1.8px); background-size: 28px 28px, 36px 36px;">
   <header data-design-id="header-upload-bg-cab731" class="h-[92px] bg-white border-b border-[#D8E3E9] flex items-center opacity-90"><div class="w-[1240px] mx-auto flex items-center justify-between"><a href="index.html" class="flex items-center gap-5"><img src="assets/logo-aematec.svg" alt="Logo AEMATEC" class="w-[154px]"><div class="h-9 w-px bg-[#D8E3E9]"></div><span class="font-sans font-bold text-[18px]">Biblioteca AEMATEC</span></a><nav data-design-id="nav-upload-bg-643df1" class="flex items-center gap-8 font-sans text-[14px] font-semibold"><a href="index.html">Inicio</a><a href="aematec_biblioteca-recursos-docentes.html">Recursos docentes</a><a href="aematec_biblioteca-recursos-academicos.html">Recursos académicos</a><span class="h-11 px-5 rounded-[10px] bg-[#0D2B45] text-white"><i class="fa-solid fa-arrow-up-from-bracket text-[#39C7D5] mr-2"></i>Subir material</span></nav></div></header>
