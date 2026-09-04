@@ -68,7 +68,6 @@
     const panelStatus = document.querySelector("#panel-status");
     const escapeHtml = value => String(value || "").replace(/[&<>"']/g, character => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;" }[character]));
     const fileSize = bytes => bytes ? `${(bytes / 1024 / 1024).toFixed(2)} MB` : "Tamaño no indicado";
-    const moderatorEmail = "angeloyeshuac@gmail.com";
 
     document.querySelector("#login-form").addEventListener("submit", async event => {
       event.preventDefault();
@@ -156,13 +155,22 @@
       }
     }
 
-    onAuthStateChanged(auth, user => {
-      const allowed = user?.email?.toLowerCase() === moderatorEmail;
+    onAuthStateChanged(auth, async user => {
+      const email = user?.email?.toLowerCase();
+      let allowed = email === moderatorEmail;
+      if (email && !allowed) {
+        const moderatorDocument = await getDoc(doc(db, "moderators", email));
+        allowed = moderatorDocument.exists();
+      }
       loginPanel.hidden = allowed;
       moderationPanel.hidden = !allowed;
       if (allowed) {
         loadPending().catch(error => { panelStatus.textContent = `No se pudieron cargar los pendientes: ${error.message}`; });
         loadModerators().catch(error => { document.querySelector("#moderator-status").textContent = `No se pudieron cargar los moderadores: ${error.message}`; });
+      } else if (user) {
+        document.querySelector("#login-status").textContent = "Esta cuenta no tiene permisos de moderador.";
+        document.querySelector("#login-status").hidden = false;
+        await signOut(auth);
       }
     });
   </script>
