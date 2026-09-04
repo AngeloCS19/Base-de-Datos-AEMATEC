@@ -90,7 +90,7 @@
       return;
     }
     submit.disabled = true;
-    submit.textContent = "Publicando...";
+    submit.textContent = "Preparando...";
     try {
       const app = initializeApp(config);
       const storage = getStorage(app);
@@ -98,10 +98,13 @@
       const resourceId = crypto.randomUUID();
       const storagePath = `recursos/docentes/${resourceId}.${extension}`;
       const upload = uploadBytesResumable(ref(storage, storagePath), file, { contentType: file.type || "application/octet-stream" });
+      showStatus("Conectando con Firebase...");
       await new Promise((resolve, reject) => {
         upload.on("state_changed", snapshot => {
           showStatus(`Subiendo archivo: ${Math.round(snapshot.bytesTransferred / snapshot.totalBytes * 100)}%`);
-        }, reject, resolve);
+        }, error => {
+          reject(new Error(`Firebase rechazó la subida (${error.code}): ${error.message}`));
+        }, resolve);
       });
       const fileUrl = await getDownloadURL(upload.snapshot.ref);
       await addDoc(collection(db, "resources"), {
