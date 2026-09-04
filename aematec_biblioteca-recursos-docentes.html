@@ -71,6 +71,21 @@
     .docentes-search-row { display: flex; gap: 0.75rem; align-items: center; }
     .docentes-search-row form { flex: 1 1 auto; min-width: 0; }
     .docentes-filter-trigger { white-space: nowrap; }
+    header nav a,
+    header > div > a {
+      transition: transform 180ms ease, color 180ms ease, background-color 180ms ease;
+      transform-origin: center;
+    }
+    header nav a:hover,
+    header nav a:focus-visible,
+    header > div > a:hover,
+    header > div > a:focus-visible {
+      transform: scale(1.04);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      header nav a,
+      header > div > a { transition: none; }
+    }
     .catalog-filter-backdrop {
       position: fixed;
       inset: 0;
@@ -369,7 +384,7 @@
     const sort = document.querySelector("#docentes-sort");
     const modal = document.querySelector("#resource-modal");
     const modalClose = document.querySelector("#modal-close");
-    const pageSize = 6;
+    const pageSize = 5;
     let resources = [];
     let page = 1;
 
@@ -438,7 +453,17 @@
           <div class="mt-5 flex gap-3"><button type="button" data-view-resource="${escapeHtml(resource.id)}" class="flex-1 h-10 border border-[#9DB6C1] rounded-[8px] font-sans font-bold text-xs"><i class="fa-regular fa-eye mr-2"></i>Ver</button><a href="${escapeHtml(resource.fileUrl)}" download class="flex-1 h-10 bg-[#00AFC1] text-white rounded-[8px] flex items-center justify-center font-sans font-bold text-xs"><i class="fa-solid fa-download mr-2"></i>Descargar</a></div>
         </article>`).join("");
       }
-      pagination.innerHTML = Array.from({ length: totalPages }, (_, index) => `<button type="button" data-page="${index + 1}" class="w-10 h-10 rounded-[8px] ${page === index + 1 ? "bg-[#0D2B45] text-white" : "bg-white border border-[#CBD9DF]"}">${index + 1}</button>`).join("");
+      const pageButtons = [];
+      if (totalPages > 1) {
+        pageButtons.push(`<button type="button" data-page="${Math.max(1, page - 1)}" aria-label="Página anterior" class="w-10 h-10 border border-[#CBD9DF] rounded-[8px] bg-white flex items-center justify-center"><i class="fa-solid fa-chevron-left text-xs"></i></button>`);
+        const pages = totalPages <= 3 ? Array.from({ length: totalPages }, (_, index) => index + 1) : [1, 2, totalPages];
+        pages.forEach((pageNumber, index) => {
+          if (index && pageNumber - pages[index - 1] > 1) pageButtons.push('<span class="px-1 text-[#7A8C96]">...</span>');
+          pageButtons.push(`<button type="button" data-page="${pageNumber}" class="w-10 h-10 rounded-[8px] ${page === pageNumber ? "bg-[#0D2B45] text-white" : "bg-white border border-[#CBD9DF]"}">${pageNumber}</button>`);
+        });
+        pageButtons.push(`<button type="button" data-page="${Math.min(totalPages, page + 1)}" aria-label="Página siguiente" class="w-10 h-10 border border-[#CBD9DF] rounded-[8px] bg-white flex items-center justify-center"><i class="fa-solid fa-chevron-right text-xs"></i></button>`);
+      }
+      pagination.innerHTML = pageButtons.join("");
       pagination.querySelectorAll("[data-page]").forEach(button => button.addEventListener("click", () => { page = Number(button.dataset.page); render(); }));
       grid.querySelectorAll("[data-view-resource]").forEach(button => button.addEventListener("click", () => {
         const resource = resources.find(item => item.id === button.dataset.viewResource);

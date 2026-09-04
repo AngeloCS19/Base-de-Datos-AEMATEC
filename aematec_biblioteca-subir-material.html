@@ -10,6 +10,7 @@
     @media (max-width: 767px) {
       body.w-\[1440px\] { width: 100% !important; overflow-x: hidden; }
       header > div { width: calc(100% - 2rem) !important; margin-left: auto; margin-right: auto; }
+      footer > div { width: calc(100% - 2rem) !important; margin-left: auto; margin-right: auto; flex-direction: column; align-items: flex-start; gap: 1rem; }
       header { height: auto !important; padding: 1rem 0; }
       header nav { flex-wrap: wrap; justify-content: center; gap: 0.75rem 1rem !important; }
       header nav a { font-size: 0.75rem; }
@@ -31,7 +32,7 @@
     }
     @media (min-width: 768px) and (max-width: 1279px) {
       body.w-\[1440px\] { width: 100% !important; overflow-x: hidden; }
-      header > div, [data-design-id="background-content-0d3e64"] > div { width: calc(100% - 4rem) !important; margin-left: auto; margin-right: auto; }
+      header > div, footer > div, [data-design-id="background-content-0d3e64"] > div { width: calc(100% - 4rem) !important; margin-left: auto; margin-right: auto; }
     }
     .upload-backdrop { position: absolute; inset: 0; background: rgba(13, 43, 69, 0.55); backdrop-filter: blur(8px); }
     .upload-dialog-section { min-height: 100%; align-items: flex-start; }
@@ -40,11 +41,111 @@
       [class~="w-[1240px]"] { width: min(1240px, calc(100% - clamp(2rem, 8vw, 12.5rem))) !important; max-width: none; }
       [data-design-id="upload-dialog-card-d6e09b"] { width: min(820px, 100%); }
     }
+    header nav a,
+    header > div > a {
+      transition: transform 180ms ease, color 180ms ease, background-color 180ms ease;
+      transform-origin: center;
+    }
+    header nav a:hover,
+    header nav a:focus-visible,
+    header > div > a:hover,
+    header > div > a:focus-visible {
+      transform: scale(1.04);
+    }
+    .upload-nav-current {
+      display: inline-flex;
+      align-items: center;
+      height: 2.75rem;
+      padding: 0 1.25rem;
+      border: 1px solid #8ED5DD;
+      border-radius: 0.625rem;
+      background: #EAF9FA;
+      color: #087F8C;
+      font-weight: 700;
+    }
+    .course-field { position: relative; }
+    .course-suggestions {
+      position: absolute;
+      z-index: 10;
+      top: calc(100% + 0.55rem);
+      left: 0;
+      right: 0;
+      padding: 0.45rem;
+      border: 1px solid rgba(57, 199, 213, 0.45);
+      border-radius: 0.8rem;
+      background: #FFFFFF;
+      box-shadow: 0 14px 30px rgba(13, 43, 69, 0.16);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-0.35rem) scale(0.98);
+      transform-origin: top center;
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+    .course-suggestions::before {
+      content: "";
+      position: absolute;
+      top: -0.35rem;
+      left: 2rem;
+      width: 0.7rem;
+      height: 0.7rem;
+      border-top: 1px solid rgba(57, 199, 213, 0.45);
+      border-left: 1px solid rgba(57, 199, 213, 0.45);
+      background: #FFFFFF;
+      transform: rotate(45deg);
+    }
+    .course-suggestions.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+    }
+    .course-suggestion {
+      position: relative;
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.65rem 0.75rem;
+      border-radius: 0.55rem;
+      color: #0D2B45;
+      text-align: left;
+      transition: background-color 180ms ease, transform 180ms ease;
+    }
+    .course-suggestion:hover,
+    .course-suggestion:focus-visible {
+      background: #F0FBFC;
+      outline: none;
+      transform: translateX(0.15rem);
+    }
+    .course-suggestion-code {
+      flex: 0 0 auto;
+      padding: 0.3rem 0.5rem;
+      border-radius: 9999px;
+      background: #0D2B45;
+      color: #FFFFFF;
+      font-family: Montserrat, sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+    }
+    .course-suggestion-name {
+      min-width: 0;
+      overflow: hidden;
+      color: #496575;
+      font-size: 0.78rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      header nav a,
+      header > div > a,
+      .course-suggestions,
+      .course-suggestion { transition: none; }
+    }
   </style>
   <title>Subir material — Biblioteca AEMATEC</title>
 </head>
 <body class="w-[1440px] bg-[#F4F8FA] text-[#0D2B45] font-serif" style="background-image: radial-gradient(circle at 12% 18%, rgba(0, 175, 193, 0.13) 0, rgba(0, 175, 193, 0.13) 1.2px, transparent 1.8px), radial-gradient(circle at 84% 72%, rgba(13, 43, 69, 0.09) 0, rgba(13, 43, 69, 0.09) 1.2px, transparent 1.8px); background-size: 28px 28px, 36px 36px;">
-  <header data-design-id="header-upload-bg-cab731" class="h-[92px] bg-white border-b border-[#D8E3E9] flex items-center opacity-90"><div class="w-[1240px] mx-auto flex items-center justify-between"><a href="index.html" class="flex items-center gap-5"><img src="assets/logo-aematec.svg" alt="Logo AEMATEC" class="w-[154px]"><div class="h-9 w-px bg-[#D8E3E9]"></div><span class="font-sans font-bold text-[18px]">Biblioteca AEMATEC</span></a><nav data-design-id="nav-upload-bg-643df1" class="flex items-center gap-8 font-sans text-[14px] font-semibold"><a href="index.html">Inicio</a><a href="aematec_biblioteca-recursos-docentes.html">Recursos docentes</a><a href="aematec_biblioteca-recursos-academicos.html">Recursos académicos</a><span class="h-11 px-5 rounded-[10px] bg-[#0D2B45] text-white"><i class="fa-solid fa-arrow-up-from-bracket text-[#39C7D5] mr-2"></i>Subir material</span></nav></div></header>
+  <header data-design-id="header-upload-bg-cab731" class="h-[92px] bg-white border-b border-[#D8E3E9] flex items-center opacity-90"><div class="w-[1240px] mx-auto flex items-center justify-between"><a href="index.html" class="flex items-center gap-5"><img src="assets/logo-aematec.svg" alt="Logo AEMATEC" class="w-[154px]"><div class="h-9 w-px bg-[#D8E3E9]"></div><span class="font-sans font-bold text-[18px]">Biblioteca AEMATEC</span></a><nav data-design-id="nav-upload-bg-643df1" class="flex items-center gap-8 font-sans text-[14px] font-semibold"><a href="index.html">Inicio</a><a href="aematec_biblioteca-recursos-docentes.html">Recursos docentes</a><a href="aematec_biblioteca-recursos-academicos.html">Recursos académicos</a><span class="upload-nav-current" aria-current="page"><i class="fa-solid fa-arrow-up-from-bracket mr-2"></i>Subir material</span></nav></div></header>
   <main data-design-id="main-upload-modal-8fd69e" class="relative min-h-[900px]">
     <section data-design-id="background-content-0d3e64" class="absolute inset-0 opacity-35 pointer-events-none"><div class="w-[1240px] mx-auto py-12"><h1 class="font-sans text-[42px] font-bold">Materiales recientes</h1><div class="grid grid-cols-3 gap-6 mt-8"><div class="h-56 bg-white border border-[#CBD9DF] rounded-[16px]"></div><div class="h-56 bg-white border border-[#CBD9DF] rounded-[16px]"></div><div class="h-56 bg-white border border-[#CBD9DF] rounded-[16px]"></div></div></div></section>
     <div class="upload-backdrop" aria-hidden="true"></div>
@@ -65,7 +166,7 @@
                 <label class="flex items-center gap-3 self-end h-11 font-sans text-xs font-bold text-[#385367]"><input id="requires-internet" name="requiresInternet" type="checkbox" class="h-4 w-4 accent-[#00AFC1]"> Requiere internet</label>
               </div>
               <div id="academico-fields" class="hidden grid grid-cols-2 gap-x-5 gap-y-5">
-                <div class="col-span-2"><label for="course" class="font-sans font-bold text-xs text-[#385367]">Curso <span class="text-[#C2413B]">*</span></label><input id="course" name="course" maxlength="80" list="course-suggestions" class="mt-2 w-full h-11 border border-[#BFD0D8] rounded-[9px] px-4" placeholder="Escribe el nombre o código del curso"><datalist id="course-suggestions"><option value="Matemática Discreta" label="MA1403"></option><option value="Fundamentos de la matemática I" label="EM1605"></option><option value="Cálculo y Análisis I" label="EM2603"></option><option value="Geometría I" label="EM2604"></option><option value="Matemática General" label="MA0101"></option><option value="Cálculo Diferencial e Integral" label="MA1102"></option></datalist></div>
+                <div class="col-span-2 course-field"><label for="course" class="font-sans font-bold text-xs text-[#385367]">Curso <span class="text-[#C2413B]">*</span></label><input id="course" name="course" maxlength="80" autocomplete="off" aria-autocomplete="list" aria-controls="course-suggestions" class="mt-2 w-full h-11 border border-[#BFD0D8] rounded-[9px] px-4" placeholder="Escribe el nombre o código del curso"><div id="course-suggestions" class="course-suggestions" role="listbox" aria-label="Cursos sugeridos"></div></div>
                 <div class="col-span-2"><span class="font-sans font-bold text-xs text-[#385367]">Etiquetas <span class="text-[#C2413B">*</span></span><div class="mt-2 grid grid-cols-2 gap-2 text-xs text-[#526A78]"><label><input data-label="Solución" type="checkbox" class="accent-[#00AFC1]"> Solución</label><label><input data-label="Prueba escrita" type="checkbox" class="accent-[#00AFC1]"> Prueba escrita</label><label><input data-label="Quiz" type="checkbox" class="accent-[#00AFC1]"> Quiz</label><label><input data-label="Reposición" type="checkbox" class="accent-[#00AFC1]"> Reposición</label><label><input data-label="Investigación" type="checkbox" class="accent-[#00AFC1]"> Investigación</label><label><input data-label="Apuntes" type="checkbox" class="accent-[#00AFC1]"> Apuntes</label><label><input data-label="Resumen" type="checkbox" class="accent-[#00AFC1]"> Resumen</label></div></div>
               </div>
               <div class="col-span-2 mt-5 border-t border-[#E0E8EC] pt-5"><label for="explanation-url" class="font-sans font-bold text-xs text-[#385367]">Explicación o guía del recurso <span class="font-normal text-[#718590]">(opcional)</span></label><input id="explanation-url" type="url" class="mt-2 w-full h-11 border border-[#BFD0D8] rounded-[9px] px-4" placeholder="Enlace a una explicación o guía de uso"><label for="explanation-file" class="mt-3 block text-xs text-[#607480]">O adjunta un documento (máximo 25 MB)<input id="explanation-file" type="file" accept=".pdf,.docx,.pptx,.xlsx,.zip,.ggb" class="mt-2 block w-full text-sm"></label></div>
@@ -78,6 +179,12 @@
       </article>
     </section>
   </main>
+  <footer data-design-id="footer-upload-4e6b8a" class="bg-[#0D2B45] text-white">
+    <div class="w-[1240px] mx-auto py-8 flex justify-between items-center">
+      <div class="flex items-center gap-4"><img src="assets/logo-aematec.svg" class="w-[122px] brightness-0 invert" alt="AEMATEC"><span class="text-sm text-[#B9CAD4] border-l border-white/20 pl-4">Biblioteca pública de recursos MATEC</span></div>
+      <p class="text-xs text-[#AFC1CC]">Hecho para aprender, creado para compartir.</p>
+    </div>
+  </footer>
 <script type="module">
   document.querySelector("#close-upload").addEventListener("click", () => {
     if (window.history.length > 1) {
@@ -113,11 +220,84 @@
   const course = document.querySelector("#course");
   const materials = document.querySelector("#materials");
   const sectionInputs = [...document.querySelectorAll('input[name="section"]')];
-  const courseCatalog = {
-    "Matemática Discreta": "MA1403", "Fundamentos de la matemática I": "EM1605",
-    "Cálculo y Análisis I": "EM2603", "Geometría I": "EM2604",
-    "Matemática General": "MA0101", "Cálculo Diferencial e Integral": "MA1102"
-  };
+  const courseCatalog = [
+    ["Introducción a la pedagogía", "EM1401"], ["Teorías Psicopedagógicas del aprendizaje", "EM1404"],
+    ["Fundamentos de la matemática I", "EM1605"], ["Matemática Discreta", "MA1403"],
+    ["Tecnologías Digitales aplicadas a la matemática educativa I", "EM1600"],
+    ["Fundamentos de la matemática II", "EM1606"], ["Aprendizaje y didáctica de la matemática", "EM2408"],
+    ["Geometría I", "EM2604"], ["Didáctica del Álgebra y Funciones", "EM1608"],
+    ["Geometría II", "EM2606"], ["Psicología del Desarrollo", "EM3407"],
+    ["Álgebra Lineal", "EM3607"], ["Didáctica de la Geometría", "EM1607"],
+    ["Cálculo y Análisis I", "EM2603"], ["Elementos de análisis de datos y probabilidad", "EM2608"],
+    ["Atención a la diversidad en la enseñanza y el aprendizaje de la Matemática", "EM3048"],
+    ["Didáctica de la probabilidad y estadística", "EM1609"],
+    ["Tecnologías digitales aplicadas a la matemática educativa II", "EM1610"],
+    ["Cálculo y Análisis II", "EM2607"], ["Electivo I", "EM3001"],
+    ["Evaluación del aprendizaje", "EM3408"], ["Práctica docente", "EM3409"],
+    ["Cálculo y Análisis III", "EM3608"], ["Electivo II", "EM3610"],
+    ["Geometría Analítica", "EM1611"], ["Álgebra", "EM4609"],
+    ["Ecuaciones diferenciales", "EM4610"], ["Tecnologías digitales aplicadas a la matemática educativa III", "EM1613"],
+    ["Estadística Inferencial", "EM1614"], ["Electivo III", "EM4001"],
+    ["Métodos numéricos", "EM4612"], ["Historia de las matemáticas", "EM5001"],
+    ["Didáctica de las matemáticas I", "EM5002"], ["Taller I: Algoritmos y programación", "EM5003"],
+    ["Introducción al análisis funcional", "EM5004"], ["Teoría de números", "EM5005"],
+    ["Didáctica de la matemática II", "EM5006"], ["Taller II: Multimedios en la matemática", "EM5007"],
+    ["Investigación educativa", "EM5008"], ["Trabajo final de graduación", "EM5009"],
+    ["Matemática General", "MA0101"], ["Cálculo Diferencial e Integral", "MA1102"],
+    ["Cálculo y Álgebra Lineal", "MA1103"], ["Cálculo Superior", "MA2104"],
+    ["Ecuaciones diferenciales", "MA2105"]
+  ];
+  const courseSuggestions = document.querySelector("#course-suggestions");
+
+  function normalizeCourseText(value) {
+    return value.toLocaleLowerCase("es").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  }
+
+  function hideCourseSuggestions() {
+    courseSuggestions.classList.remove("is-visible");
+    course.setAttribute("aria-expanded", "false");
+  }
+
+  function renderCourseSuggestions() {
+    const query = normalizeCourseText(course.value.trim());
+    courseSuggestions.replaceChildren();
+    if (!query) {
+      hideCourseSuggestions();
+      return;
+    }
+    const matches = courseCatalog
+      .filter(([name, code]) => normalizeCourseText(name).includes(query) || code.toLocaleLowerCase().includes(query))
+      .slice(0, 5);
+    if (!matches.length) {
+      hideCourseSuggestions();
+      return;
+    }
+    matches.forEach(([name, code]) => {
+      const option = document.createElement("button");
+      option.type = "button";
+      option.className = "course-suggestion";
+      option.setAttribute("role", "option");
+      option.dataset.courseName = name;
+      option.innerHTML = `<span class="course-suggestion-name">${name}</span><span class="course-suggestion-code">${code}</span>`;
+      courseSuggestions.append(option);
+    });
+    courseSuggestions.classList.add("is-visible");
+    course.setAttribute("aria-expanded", "true");
+  }
+
+  course.addEventListener("input", renderCourseSuggestions);
+  course.addEventListener("focus", renderCourseSuggestions);
+  course.addEventListener("keydown", event => {
+    if (event.key === "Escape") hideCourseSuggestions();
+  });
+  course.addEventListener("blur", () => window.setTimeout(hideCourseSuggestions, 120));
+  courseSuggestions.addEventListener("mousedown", event => event.preventDefault());
+  courseSuggestions.addEventListener("click", event => {
+    const option = event.target.closest(".course-suggestion");
+    if (!option) return;
+    course.value = option.dataset.courseName;
+    hideCourseSuggestions();
+  });
 
   function updateSectionFields() {
     const section = sectionInputs.find(input => input.checked)?.value || "";
@@ -127,6 +307,7 @@
     docentesFields.classList.toggle("hidden", !isDocente);
     academicoFields.classList.toggle("hidden", !isAcademico);
     mainFileField.classList.toggle("hidden", !section);
+    if (!isAcademico) hideCourseSuggestions();
     grade.required = isDocente;
     course.required = isAcademico;
     fileInput.required = isDocente;
@@ -253,13 +434,16 @@
         title: form.title.value.trim(), description: form.description.value.trim(),
         section, type: typeMap[labels[0]], labels, grade: selectedGrade,
         educationalCycle, course: course.value.trim(),
-        courseCode: courseCatalog[course.value.trim()] || (Object.values(courseCatalog).includes(course.value.trim()) ? course.value.trim() : ""),
+        courseCode: courseCatalog.find(([name]) => normalizeCourseText(name) === normalizeCourseText(course.value.trim()))?.[1]
+          || courseCatalog.find(([, code]) => code.toLocaleLowerCase() === course.value.trim().toLocaleLowerCase())?.[1]
+          || "",
         author: form.author.value.trim(), materials: materials?.value.trim() || "",
         requiresInternet: form.requiresInternet.checked, explanationUrl,
         explanation, extension: extension || "", size: file?.size || 0, storagePath, fileUrl,
         status: "pending", published: false, createdAt: serverTimestamp()
       });
       form.reset();
+      hideCourseSuggestions();
       fileLabel.textContent = "Arrastra tu archivo aquí o selecciónalo";
       showStatus("Material enviado correctamente. Quedará disponible después de la revisión de un moderador.");
     } catch (error) {

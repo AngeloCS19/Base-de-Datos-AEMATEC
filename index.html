@@ -14,6 +14,13 @@
     rel="stylesheet">
   <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Montserrat', 'sans-serif'], serif: ['Source Serif 4', 'serif'] } } } }</script>
   <script src="assets/firebase-config.js"></script>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [["\\(", "\\)"]] },
+      options: { skipHtmlTags: ["script", "style", "textarea", "pre", "code"] }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <style>
     @media (max-width: 767px) {
       body[class~="w-[1440px]"] { width: 100% !important; max-width: 100%; overflow-x: hidden; }
@@ -36,6 +43,8 @@
       [data-design-id="hero-section-16a5bf"] > div { width: calc(100% - 2rem) !important; min-height: auto; margin-left: auto; margin-right: auto; padding: 3rem 0 2.5rem; }
       [data-design-id="hero-section-16a5bf"] h1 { max-width: 100%; font-size: clamp(2rem, 8.5vw, 3.2rem); overflow-wrap: break-word; }
       [data-design-id="hero-section-16a5bf"] p { max-width: 100%; font-size: 1rem; line-height: 1.7; }
+      .hero-equation { top: 1.5rem; right: 1rem; font-size: 1.25rem; }
+      .hero-geometry { left: -5rem; bottom: -4rem; transform: scale(0.7); transform-origin: bottom left; }
       #global-search-form { width: 100%; height: auto; min-height: 58px; }
       #global-search-form input { min-width: 0; font-size: 0.9rem; }
       #global-search-form button { padding-left: 1rem; padding-right: 1rem; }
@@ -73,8 +82,85 @@
       [class~="w-[1240px]"] { width: min(1240px, calc(100% - clamp(2rem, 8vw, 12.5rem))) !important; max-width: none; }
       [data-design-id="hero-section-16a5bf"] > div { padding-top: clamp(3rem, 5vw, 5.5rem); padding-bottom: clamp(3rem, 5vw, 5.5rem); }
       [data-design-id="hero-section-16a5bf"] h1 { font-size: clamp(2.25rem, 3.2vw, 4rem); }
+      .hero-equation { top: 2.5rem; right: 2rem; }
       [data-design-id="quick-access-section-0d64a7"] { padding-top: clamp(3rem, 4.5vw, 5rem); padding-bottom: clamp(3rem, 4.5vw, 5rem); }
       [data-design-id="recent-materials-section-651b23"] { padding-top: clamp(3rem, 4.5vw, 5rem); padding-bottom: clamp(3rem, 4.5vw, 5rem); }
+    }
+    header nav a,
+    header > div > a {
+      transition: transform 180ms ease, color 180ms ease, background-color 180ms ease;
+      transform-origin: center;
+    }
+    header nav a:hover,
+    header nav a:focus-visible,
+    header > div > a:hover,
+    header > div > a:focus-visible {
+      transform: scale(1.04);
+    }
+    .course-shortcut {
+      position: relative;
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+    }
+    .course-shortcut::before {
+      content: attr(data-course-name);
+      position: absolute;
+      z-index: 2;
+      left: 50%;
+      bottom: calc(100% + 0.7rem);
+      width: max-content;
+      max-width: min(250px, 70vw);
+      padding: 0.55rem 0.8rem;
+      border: 1px solid rgba(57, 199, 213, 0.35);
+      border-radius: 0.7rem;
+      background: #0D2B45;
+      color: #FFFFFF;
+      box-shadow: 0 10px 24px rgba(13, 43, 69, 0.18);
+      font-family: Montserrat, sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      line-height: 1.25;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 0.4rem) scale(0.96);
+      transform-origin: bottom center;
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+    .course-shortcut::after {
+      content: "";
+      position: absolute;
+      z-index: 2;
+      left: 50%;
+      bottom: calc(100% + 0.08rem);
+      width: 1rem;
+      height: 0.7rem;
+      background: #0D2B45;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 0.4rem) scale(0.8);
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+    .course-shortcut:hover,
+    .course-shortcut:focus-visible {
+      transform: translateY(-2px);
+      border-color: #00B5C8;
+      background-color: #F0FBFC;
+      box-shadow: 0 8px 18px rgba(13, 43, 69, 0.1);
+    }
+    .course-shortcut:hover::before,
+    .course-shortcut:hover::after,
+    .course-shortcut:focus-visible::before,
+    .course-shortcut:focus-visible::after {
+      opacity: 1;
+      transform: translate(-50%, 0) scale(1);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      header nav a,
+      header > div > a,
+      .course-shortcut,
+      .course-shortcut::before,
+      .course-shortcut::after { transition: none; }
     }
   </style>
   <title>Biblioteca AEMATEC</title>
@@ -108,13 +194,19 @@
   </header>
 
   <main data-design-id="main-home-3e718d">
-    <section data-design-id="hero-section-16a5bf" class="bg-[#EEF5F7] border-b border-[#D5E5EA]" style="background-image: linear-gradient(135deg, rgba(47, 86, 112, 0.085) 25%, transparent 25%), linear-gradient(225deg, rgba(0, 166, 184, 0.10) 25%, transparent 25%), linear-gradient(315deg, rgba(47, 86, 112, 0.065) 25%, transparent 25%), linear-gradient(45deg, rgba(0, 166, 184, 0.075) 25%, transparent 25%); background-position: 0 0, 0 0, 28px 28px, 28px 28px; background-size: 56px 56px;">
+    <section data-design-id="hero-section-16a5bf" class="bg-[#EAF5F7] border-b border-[#D5E5EA]">
       <div class="w-[1240px] mx-auto min-h-[500px] pt-[76px] pb-[64px] text-center relative overflow-hidden">
-        <div
-          class="inline-flex items-center gap-2 bg-[#E8F8FA] text-[#087D8A] rounded-full px-4 py-2 font-sans text-xs font-bold tracking-wide uppercase">
-          <i class="fa-solid fa-book-open"></i> Recursos abiertos para enseñar y aprender
-        </div>
-        <h1 class="font-sans text-[54px] leading-[1.08] tracking-[-0.04em] font-bold mt-6">Conocimiento que se
+        <div aria-hidden="true" class="hero-equation absolute text-[#0D2B45]/[0.16] font-serif pointer-events-none">\( \displaystyle a^2+b^2=c^2 \)</div>
+        <svg aria-hidden="true" class="hero-geometry absolute w-[360px] h-[250px] text-[#0D2B45]/[0.16] pointer-events-none" viewBox="0 0 360 250" fill="none">
+          <circle cx="126" cy="154" r="92" stroke="currentColor" stroke-width="2"/>
+          <path d="M34 154H218M126 62V246M44 236L218 62" stroke="currentColor" stroke-width="2"/>
+          <path d="M24 216L210 30M28 228L222 34" stroke="#00A6B8" stroke-width="3"/>
+          <path d="M42 228L66 204M66 228L42 204M198 52L222 28M222 52L198 28" stroke="#00A6B8" stroke-width="2"/>
+          <circle cx="126" cy="154" r="7" fill="#00A6B8"/>
+          <path d="M222 34L246 10M222 34L244 40" stroke="#0D2B45" stroke-width="3" stroke-linecap="round"/>
+          <path d="M253 8H348M253 22H348M253 8V22M348 8V22M270 8V22M287 8V22M304 8V22M321 8V22M338 8V22" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        <h1 class="font-sans text-[54px] leading-[1.08] tracking-[-0.04em] font-bold mt-0">Conocimiento que se
           comparte,<br><span class="text-[#00A6B8]">aprendizaje que crece.</span></h1>
         <p class="mt-5 text-[19px] leading-8 text-[#526574] max-w-[730px] mx-auto">Materiales creados y recopilados por
           la comunidad de Enseñanza de la Matemática con Entornos Tecnológicos del TEC.</p>
@@ -127,10 +219,6 @@
           <button data-design-id="search-submit-btn-9e53b0" type="submit"
             class="h-[48px] px-7 rounded-[10px] bg-[#00AFC1] text-white font-sans font-bold text-sm hover:bg-[#009AAA]">Buscar</button>
         </form>
-        <p class="mt-4 text-sm text-[#718592]">Sugerencias: <a href="#"
-            class="underline decoration-[#9ADDE4] underline-offset-4">geometría</a>, <a href="#"
-            class="underline decoration-[#9ADDE4] underline-offset-4">MA1001</a>, <a href="#"
-            class="underline decoration-[#9ADDE4] underline-offset-4">juegos didácticos</a></p>
       </div>
     </section>
 
@@ -145,6 +233,7 @@
         </div>
         <p id="global-search-status" class="text-[#627683] mb-5"></p>
         <div id="global-search-list" class="space-y-4"></div>
+        <div id="global-search-pagination" class="mt-8 flex items-center justify-center gap-2 font-sans text-sm"></div>
       </div>
     </section>
 
@@ -244,19 +333,21 @@
     <section class="w-[1240px] mx-auto py-[56px]">
       <div class="flex items-end justify-between mb-7"><div><p class="font-sans text-xs font-bold uppercase tracking-[0.18em] text-[#00A6B8]">Cursos frecuentes</p><h2 class="font-sans text-[30px] font-bold mt-2">Explora por curso</h2></div><a id="all-courses-link" href="aematec_biblioteca-recursos-academicos.html?showCourses=1" class="font-sans text-sm font-bold text-[#0C8190]">Ver todos</a></div>
       <div class="flex flex-wrap gap-3">
-        <a title="Matemática General" href="aematec_biblioteca-recursos-academicos.html?q=MA0101" class="rounded-full bg-white border border-[#D8E3E9] px-5 py-3 font-sans text-sm font-bold hover:border-[#00B5C8]">MA0101</a>
-        <a title="Cálculo Diferencial e Integral" href="aematec_biblioteca-recursos-academicos.html?q=MA1102" class="rounded-full bg-white border border-[#D8E3E9] px-5 py-3 font-sans text-sm font-bold hover:border-[#00B5C8]">MA1102</a>
-        <a title="Matemática Discreta" href="aematec_biblioteca-recursos-academicos.html?q=MA1403" class="rounded-full bg-white border border-[#D8E3E9] px-5 py-3 font-sans text-sm font-bold hover:border-[#00B5C8]">MA1403</a>
-        <a title="Fundamentos de la matemática I" href="aematec_biblioteca-recursos-academicos.html?q=EM1605" class="rounded-full bg-white border border-[#D8E3E9] px-5 py-3 font-sans text-sm font-bold hover:border-[#00B5C8]">EM1605</a>
-        <a title="Cálculo y Análisis I" href="aematec_biblioteca-recursos-academicos.html?q=EM2603" class="rounded-full bg-white border border-[#D8E3E9] px-5 py-3 font-sans text-sm font-bold hover:border-[#00B5C8]">EM2603</a>
+        <a data-course-name="Matemática General" href="aematec_biblioteca-recursos-academicos.html?q=MA0101" class="course-shortcut rounded-full bg-white border border-[#D8E3E9] px-5 py-3 font-sans text-sm font-bold">MA0101</a>
+        <a data-course-name="Cálculo Diferencial e Integral" href="aematec_biblioteca-recursos-academicos.html?q=MA1102" class="course-shortcut rounded-full bg-white border border-[#D8E3E9] px-5 py-3 font-sans text-sm font-bold">MA1102</a>
+        <a data-course-name="Matemática Discreta" href="aematec_biblioteca-recursos-academicos.html?q=MA1403" class="course-shortcut rounded-full bg-white border border-[#D8E3E9] px-5 py-3 font-sans text-sm font-bold">MA1403</a>
+        <a data-course-name="Fundamentos de la matemática I" href="aematec_biblioteca-recursos-academicos.html?q=EM1605" class="course-shortcut rounded-full bg-white border border-[#D8E3E9] px-5 py-3 font-sans text-sm font-bold">EM1605</a>
+        <a data-course-name="Cálculo y Análisis I" href="aematec_biblioteca-recursos-academicos.html?q=EM2603" class="course-shortcut rounded-full bg-white border border-[#D8E3E9] px-5 py-3 font-sans text-sm font-bold">EM2603</a>
       </div>
     </section>
-    <section class="w-[1240px] mx-auto py-[56px]">
-      <div class="flex items-end justify-between mb-7"><div><p class="font-sans text-xs font-bold uppercase tracking-[0.18em] text-[#00A6B8]">Explora por categoría</p><h2 class="font-sans text-[30px] font-bold mt-2">Encuentra lo que necesitas</h2></div></div>
-      <div class="grid grid-cols-3 gap-5">
-        <a href="aematec_biblioteca-recursos-docentes.html" class="rounded-[16px] border border-[#D8E3E9] bg-white p-6 hover:border-[#00B5C8]"><i class="fa-solid fa-chalkboard-user text-2xl text-[#00A6B8]"></i><h3 class="mt-4 font-sans font-bold">Actividades y juegos</h3><p class="mt-2 text-sm text-[#627683]">Recursos listos para llevar al aula.</p></a>
-        <a href="aematec_biblioteca-recursos-academicos.html" class="rounded-[16px] border border-[#D8E3E9] bg-white p-6 hover:border-[#00B5C8]"><i class="fa-solid fa-file-pen text-2xl text-[#486398]"></i><h3 class="mt-4 font-sans font-bold">Exámenes y apuntes</h3><p class="mt-2 text-sm text-[#627683]">Material para acompañar tus cursos.</p></a>
-        <a href="aematec_biblioteca-recursos-docentes.html" class="rounded-[16px] border border-[#D8E3E9] bg-white p-6 hover:border-[#00B5C8]"><i class="fa-solid fa-shapes text-2xl text-[#946316]"></i><h3 class="mt-4 font-sans font-bold">GeoGebra y recursos digitales</h3><p class="mt-2 text-sm text-[#627683]">Explora materiales interactivos.</p></a>
+    <section class="bg-[#EAF1F4] border-y border-[#D7E3E8] py-[56px]">
+      <div class="w-[1240px] mx-auto">
+        <div class="flex items-end justify-between mb-7"><div><p class="font-sans text-xs font-bold uppercase tracking-[0.18em] text-[#00A6B8]">Explora por categoría</p><h2 class="font-sans text-[30px] font-bold mt-2">Encuentra lo que necesitas</h2></div></div>
+        <div class="grid grid-cols-3 gap-5">
+          <a href="aematec_biblioteca-recursos-docentes.html" class="rounded-[16px] border border-[#D8E3E9] bg-white p-6 hover:border-[#00B5C8]"><i class="fa-solid fa-chalkboard-user text-2xl text-[#00A6B8]"></i><h3 class="mt-4 font-sans font-bold">Actividades y juegos</h3><p class="mt-2 text-sm text-[#627683]">Recursos listos para llevar al aula.</p></a>
+          <a href="aematec_biblioteca-recursos-academicos.html" class="rounded-[16px] border border-[#D8E3E9] bg-white p-6 hover:border-[#00B5C8]"><i class="fa-solid fa-file-pen text-2xl text-[#486398]"></i><h3 class="mt-4 font-sans font-bold">Exámenes y apuntes</h3><p class="mt-2 text-sm text-[#627683]">Material para acompañar tus cursos.</p></a>
+          <a href="aematec_biblioteca-recursos-docentes.html" class="rounded-[16px] border border-[#D8E3E9] bg-white p-6 hover:border-[#00B5C8]"><i class="fa-solid fa-shapes text-2xl text-[#946316]"></i><h3 class="mt-4 font-sans font-bold">GeoGebra y recursos digitales</h3><p class="mt-2 text-sm text-[#627683]">Explora materiales interactivos.</p></a>
+        </div>
       </div>
     </section>
 
@@ -272,8 +363,8 @@
           </div>
         </div>
         <a href="aematec_biblioteca-subir-material.html" data-design-id="upload-cta-btn-21fdf8"
-          class="bg-[#00AFC1] text-white h-12 px-7 rounded-[10px] font-sans font-bold text-sm"><i
-            class="fa-solid fa-plus mr-2"></i>Subir material</a>
+          class="h-14 px-7 rounded-[12px] bg-[#0D2B45] text-white flex items-center justify-center gap-2 font-sans font-bold text-sm"><i
+            class="fa-solid fa-arrow-up-from-bracket text-[#39C7D5]"></i>Subir material</a>
       </div>
     </section>
   </main>
@@ -338,6 +429,7 @@
     const globalSearchTitle = document.querySelector("#global-search-title");
     const globalSearchStatus = document.querySelector("#global-search-status");
     const globalSearchList = document.querySelector("#global-search-list");
+    const globalSearchPagination = document.querySelector("#global-search-pagination");
     const mobileMenuToggle = document.querySelector("#mobile-menu-toggle");
     const primaryNavigation = document.querySelector("#primary-navigation");
     const globalModal = document.querySelector("#global-resource-modal");
@@ -345,6 +437,8 @@
     let publishedResources = [];
     let resourcesLoaded = false;
     let pendingGlobalSearch = "";
+    let globalSearchPage = 1;
+    const globalSearchPageSize = 5;
     mobileMenuToggle.addEventListener("click", () => {
       const isOpen = primaryNavigation.classList.toggle("is-open");
       mobileMenuToggle.setAttribute("aria-expanded", String(isOpen));
@@ -400,10 +494,14 @@
       if (!resources.length) {
         globalSearchStatus.textContent = "No encontramos materiales que coincidan. Prueba con otro tema, curso o tipo de recurso.";
         globalSearchList.innerHTML = "";
+        globalSearchPagination.innerHTML = "";
         return;
       }
       globalSearchStatus.textContent = `${resources.length} ${resources.length === 1 ? "recurso encontrado" : "recursos encontrados"} en la biblioteca.`;
-      globalSearchList.innerHTML = resources.map(resource => {
+      const totalPages = Math.max(1, Math.ceil(resources.length / globalSearchPageSize));
+      globalSearchPage = Math.min(globalSearchPage, totalPages);
+      const visible = resources.slice((globalSearchPage - 1) * globalSearchPageSize, globalSearchPage * globalSearchPageSize);
+      globalSearchList.innerHTML = visible.map(resource => {
         const isAcademic = resource.section === "academico" || resource.section === "academicos";
         const sectionLabel = isAcademic ? "Recurso académico" : "Recurso docente";
         const sectionClass = isAcademic ? "bg-[#E9EEF9] text-[#3B568D]" : "bg-[#DFF6F8] text-[#087F8C]";
@@ -423,6 +521,22 @@
         const resource = publishedResources.find(item => item.id === button.dataset.globalView);
         if (resource) openGlobalModal(resource);
       }));
+      const pageButtons = [];
+      if (totalPages > 1) {
+        pageButtons.push(`<button type="button" data-global-page="${Math.max(1, globalSearchPage - 1)}" aria-label="Página anterior" class="w-10 h-10 border border-[#CBD9DF] rounded-[8px] bg-white flex items-center justify-center"><i class="fa-solid fa-chevron-left text-xs"></i></button>`);
+        const pages = totalPages <= 3 ? Array.from({ length: totalPages }, (_, index) => index + 1) : [1, 2, totalPages];
+        pages.forEach((pageNumber, index) => {
+          if (index && pageNumber - pages[index - 1] > 1) pageButtons.push('<span class="px-1 text-[#7A8C96]">...</span>');
+          pageButtons.push(`<button type="button" data-global-page="${pageNumber}" class="w-10 h-10 rounded-[8px] ${globalSearchPage === pageNumber ? "bg-[#0D2B45] text-white" : "bg-white border border-[#CBD9DF]"}">${pageNumber}</button>`);
+        });
+        pageButtons.push(`<button type="button" data-global-page="${Math.min(totalPages, globalSearchPage + 1)}" aria-label="Página siguiente" class="w-10 h-10 border border-[#CBD9DF] rounded-[8px] bg-white flex items-center justify-center"><i class="fa-solid fa-chevron-right text-xs"></i></button>`);
+      }
+      globalSearchPagination.innerHTML = pageButtons.join("");
+      globalSearchPagination.querySelectorAll("[data-global-page]").forEach(button => button.addEventListener("click", () => {
+        globalSearchPage = Number(button.dataset.globalPage);
+        renderGlobalResults(queryText, resources);
+        globalResults.scrollIntoView({ behavior: "smooth", block: "start" });
+      }));
     };
     const searchGlobalResources = queryText => {
       const normalizedQuery = queryText.toLocaleLowerCase("es");
@@ -431,6 +545,7 @@
           .filter(Boolean).join(" ").toLocaleLowerCase("es");
         return searchableText.includes(normalizedQuery);
       });
+      globalSearchPage = 1;
       renderGlobalResults(queryText, matches);
       globalResults.scrollIntoView({ behavior: "smooth", block: "start" });
     };
@@ -443,6 +558,8 @@
         globalSearchTitle.textContent = "";
         globalSearchStatus.textContent = "";
         globalSearchList.innerHTML = "";
+        globalSearchPagination.innerHTML = "";
+        globalSearchPage = 1;
         return;
       }
       if (resourcesLoaded) {
@@ -460,6 +577,8 @@
       pendingGlobalSearch = "";
       globalResults.classList.add("hidden");
       document.querySelector("#global-search-form input").value = "";
+      globalSearchPagination.innerHTML = "";
+      globalSearchPage = 1;
       document.querySelector("#global-search-form input").focus();
     });
     globalModalClose.addEventListener("click", closeGlobalModal);
