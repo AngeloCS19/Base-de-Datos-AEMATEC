@@ -8,14 +8,24 @@ const { Resend } = require("resend");
 admin.initializeApp();
 
 const resendApiKey = defineSecret("RESEND_API_KEY");
-const moderatorEmail = "angeloyeshuac@gmail.com";
 const senderEmail = "AEMATEC <onboarding@resend.dev>";
+
+async function getModeratorEmails() {
+  const snapshot = await admin.firestore().collection("moderators").get();
+  const emails = snapshot.docs.map(document => document.id);
+  return emails.length ? emails : ["angeloyeshuac@gmail.com"];
+}
 
 async function sendEmail(subject, html) {
   const resend = new Resend(resendApiKey.value());
+  const recipients = await getModeratorEmails();
+  if (!recipients.length) {
+    logger.warn("No hay moderadores configurados; correo no enviado");
+    return;
+  }
   const { error } = await resend.emails.send({
     from: senderEmail,
-    to: [moderatorEmail],
+    to: recipients,
     subject,
     html
   });

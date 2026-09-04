@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Source+Serif+4:wght@400;500;600&display=swap" rel="stylesheet">
@@ -12,8 +13,11 @@
 <body class="min-h-screen bg-[#F4F8FA] text-[#0D2B45] font-serif">
   <header class="border-b border-[#D8E3E9] bg-white">
     <div class="mx-auto flex max-w-[1100px] items-center justify-between px-6 py-5">
-      <a href="index.html" class="font-sans text-lg font-bold">Biblioteca AEMATEC</a>
-      <span class="font-sans text-xs font-semibold text-[#607480]">Panel de moderación</span>
+      <a href="index.html" class="flex items-center gap-4 font-sans text-lg font-bold" aria-label="Ir al inicio">
+        <img src="assets/logo-aematec.svg" alt="Logo AEMATEC" class="h-12 w-auto">
+        <span class="hidden border-l border-[#D8E3E9] pl-4 sm:inline">Biblioteca AEMATEC</span>
+      </a>
+      <div class="flex items-center gap-5"><span class="font-sans text-xs font-semibold text-[#607480]">Panel de moderación</span><a href="index.html" class="font-sans text-xs font-bold text-[#008F9E] hover:text-[#00A6B8]"><i class="fa-solid fa-arrow-left mr-1"></i>Volver al inicio</a></div>
     </div>
   </header>
   <main class="mx-auto max-w-[1100px] px-6 py-10">
@@ -34,12 +38,23 @@
       </div>
       <p id="panel-status" role="status" class="mt-5 text-sm text-[#607480]"></p>
       <div id="pending-list" class="mt-6 space-y-4"></div>
+      <section class="mt-10 rounded-[16px] border border-[#D7E2E7] bg-white p-6 shadow-sm">
+        <h2 class="font-sans text-xl font-bold">Moderadores</h2>
+        <p class="mt-2 text-sm text-[#607480]">Agrega o quita correos autorizados. Cada persona también debe tener una cuenta habilitada en Firebase Authentication.</p>
+        <form id="moderator-form" class="mt-5 flex flex-wrap gap-3">
+          <label for="moderator-email" class="sr-only">Correo del moderador</label>
+          <input id="moderator-email" type="email" required placeholder="correo@ejemplo.com" class="h-11 min-w-[260px] flex-1 rounded-[9px] border border-[#BFD0D8] px-3">
+          <button class="h-11 rounded-[9px] bg-[#0D2B45] px-5 font-sans text-xs font-bold text-white">Agregar moderador</button>
+        </form>
+        <p id="moderator-status" role="status" class="mt-3 text-sm" hidden></p>
+        <ul id="moderator-list" class="mt-5 divide-y divide-[#E2E9EC]"></ul>
+      </section>
     </section>
   </main>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { getFirestore, collection, getDocs, getDoc, query, where, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, getDoc, query, where, updateDoc, deleteDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
     import { getStorage, ref, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
     const moderatorEmail = "angeloyeshuac@gmail.com";
@@ -53,6 +68,7 @@
     const panelStatus = document.querySelector("#panel-status");
     const escapeHtml = value => String(value || "").replace(/[&<>"']/g, character => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;" }[character]));
     const fileSize = bytes => bytes ? `${(bytes / 1024 / 1024).toFixed(2)} MB` : "Tamaño no indicado";
+    const moderatorEmail = "angeloyeshuac@gmail.com";
 
     document.querySelector("#login-form").addEventListener("submit", async event => {
       event.preventDefault();
@@ -66,6 +82,40 @@
       }
     });
     document.querySelector("#logout").addEventListener("click", () => signOut(auth));
+    document.querySelector("#moderator-form").addEventListener("submit", async event => {
+      event.preventDefault();
+      const status = document.querySelector("#moderator-status");
+      const email = document.querySelector("#moderator-email").value.trim().toLowerCase();
+      try {
+        await setDoc(doc(db, "moderators", email), { email, addedAt: new Date().toISOString() });
+        event.target.reset();
+        await loadModerators();
+        status.textContent = "Moderador agregado.";
+        status.className = "mt-3 text-sm text-[#087F8C]";
+        status.hidden = false;
+      } catch (error) {
+        status.textContent = `No se pudo agregar el moderador: ${error.message}`;
+        status.className = "mt-3 text-sm text-[#C2413B]";
+        status.hidden = false;
+      }
+    });
+
+    async function loadModerators() {
+      const list = document.querySelector("#moderator-list");
+      const snapshot = await getDocs(collection(db, "moderators"));
+      list.innerHTML = snapshot.docs.map(item => `<li class="flex items-center justify-between gap-4 py-3"><span class="font-sans text-sm">${escapeHtml(item.id)}</span><button type="button" data-remove-moderator="${escapeHtml(item.id)}" class="font-sans text-xs font-bold text-[#C2413B]">Quitar</button></li>`).join("");
+      list.querySelectorAll("[data-remove-moderator]").forEach(button => button.addEventListener("click", async () => {
+        if (button.dataset.removeModerator === moderatorEmail) {
+          document.querySelector("#moderator-status").textContent = "No puedes quitar al administrador principal.";
+          document.querySelector("#moderator-status").className = "mt-3 text-sm text-[#C2413B]";
+          document.querySelector("#moderator-status").hidden = false;
+          return;
+        }
+        if (!confirm(`¿Quitar a ${button.dataset.removeModerator} como moderador?`)) return;
+        await deleteDoc(doc(db, "moderators", button.dataset.removeModerator));
+        await loadModerators();
+      }));
+    }
 
     async function loadPending() {
       panelStatus.textContent = "Cargando materiales...";
@@ -110,7 +160,10 @@
       const allowed = user?.email?.toLowerCase() === moderatorEmail;
       loginPanel.hidden = allowed;
       moderationPanel.hidden = !allowed;
-      if (allowed) loadPending().catch(error => { panelStatus.textContent = `No se pudieron cargar los pendientes: ${error.message}`; });
+      if (allowed) {
+        loadPending().catch(error => { panelStatus.textContent = `No se pudieron cargar los pendientes: ${error.message}`; });
+        loadModerators().catch(error => { document.querySelector("#moderator-status").textContent = `No se pudieron cargar los moderadores: ${error.message}`; });
+      }
     });
   </script>
 </body>

@@ -1,9 +1,21 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isModerator() {
+      return request.auth != null
+        && (request.auth.token.email == 'angeloyeshuac@gmail.com'
+          || exists(/databases/$(database)/documents/moderators/$(request.auth.token.email)));
+    }
+
+    match /moderators/{email} {
+      allow read: if isModerator();
+      allow create, delete: if isModerator();
+      allow update: if isModerator();
+    }
+
     match /resources/{resourceId} {
       allow read: if resource.data.published == true
-        || (request.auth != null && request.auth.token.email == 'angeloyeshuac@gmail.com');
+        || isModerator();
       allow create: if request.resource.data.section in ['docentes', 'academico']
         && request.resource.data.title is string && request.resource.data.title.size() > 0
         && request.resource.data.title.size() <= 120
@@ -18,12 +30,10 @@ service cloud.firestore {
         && request.resource.data.size is number && request.resource.data.size <= 25 * 1024 * 1024
         && request.resource.data.status == 'pending'
         && request.resource.data.published == false;
-      allow update: if request.auth != null
-        && request.auth.token.email == 'angeloyeshuac@gmail.com'
+      allow update: if isModerator()
         && request.resource.data.status in ['approved', 'rejected']
         && request.resource.data.published == (request.resource.data.status == 'approved');
-      allow delete: if request.auth != null
-        && request.auth.token.email == 'angeloyeshuac@gmail.com';
+      allow delete: if isModerator();
     }
   }
 }
