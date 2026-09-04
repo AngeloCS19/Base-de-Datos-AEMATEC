@@ -12,10 +12,11 @@
     href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap"
     rel="stylesheet">
   <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Montserrat', 'sans-serif'], serif: ['Source Serif 4', 'serif'] } } } }</script>
+  <script src="assets/firebase-config.js"></script>
   <title>Biblioteca AEMATEC</title>
 </head>
 
-<body class="w-[1440px] bg-[#F4F8FA] text-[#0D2B45] font-serif">
+<body class="w-[1440px] bg-[#F4F8FA] text-[#0D2B45] font-serif" style="background-image: radial-gradient(circle at 12% 18%, rgba(0, 175, 193, 0.13) 0, rgba(0, 175, 193, 0.13) 1.2px, transparent 1.8px), radial-gradient(circle at 84% 72%, rgba(13, 43, 69, 0.09) 0, rgba(13, 43, 69, 0.09) 1.2px, transparent 1.8px); background-size: 28px 28px, 36px 36px;">
   <header data-design-id="header-main-a81c2e" class="h-[92px] bg-white border-b border-[#D8E3E9] flex items-center">
     <div class="w-[1240px] mx-auto flex items-center justify-between">
       <a href="index.html" class="flex items-center gap-5">
@@ -53,19 +54,33 @@
           comparte,<br><span class="text-[#00A6B8]">aprendizaje que crece.</span></h1>
         <p class="mt-5 text-[19px] leading-8 text-[#526574] max-w-[730px] mx-auto">Materiales creados y recopilados por
           la comunidad de Enseñanza de la Matemática con Entornos Tecnológicos del TEC.</p>
-        <form data-design-id="search-form-75e90c" action="#"
+        <form id="global-search-form" data-design-id="search-form-75e90c"
           class="mt-9 mx-auto w-[800px] h-[68px] bg-white border-2 border-[#B8D3DC] rounded-[16px] shadow-[0_12px_35px_rgba(13,43,69,0.10)] flex items-center p-2">
           <i class="fa-solid fa-magnifying-glass text-[#00A6B8] text-xl ml-4"></i>
           <input aria-label="Buscar materiales"
             class="flex-1 h-full px-4 outline-none text-[17px] text-[#233F53] placeholder:text-[#7C909D]"
             placeholder="Buscar por tema, curso, tipo de recurso...">
-          <button data-design-id="search-submit-btn-9e53b0" type="button"
+          <button data-design-id="search-submit-btn-9e53b0" type="submit"
             class="h-[48px] px-7 rounded-[10px] bg-[#00AFC1] text-white font-sans font-bold text-sm hover:bg-[#009AAA]">Buscar</button>
         </form>
         <p class="mt-4 text-sm text-[#718592]">Sugerencias: <a href="#"
             class="underline decoration-[#9ADDE4] underline-offset-4">geometría</a>, <a href="#"
             class="underline decoration-[#9ADDE4] underline-offset-4">MA1001</a>, <a href="#"
             class="underline decoration-[#9ADDE4] underline-offset-4">juegos didácticos</a></p>
+      </div>
+    </section>
+
+    <section id="global-search-results" class="hidden bg-white border-b border-[#DCE6EA] py-[42px]" aria-live="polite">
+      <div class="w-[1240px] mx-auto">
+        <div class="flex items-end justify-between mb-7">
+          <div>
+            <p class="font-sans text-xs font-bold uppercase tracking-[0.18em] text-[#00A6B8]">Resultados de búsqueda</p>
+            <h2 id="global-search-title" class="font-sans text-[30px] font-bold mt-2"></h2>
+          </div>
+          <button id="clear-global-search" type="button" class="font-sans text-sm font-bold text-[#0C8190]">Limpiar búsqueda</button>
+        </div>
+        <p id="global-search-status" class="text-[#627683] mb-5"></p>
+        <div id="global-search-list" class="space-y-4"></div>
       </div>
     </section>
 
@@ -78,7 +93,7 @@
         <span class="text-[#647986] text-sm">Acceso público · Sin registro</span>
       </div>
       <div class="grid grid-cols-2 gap-6">
-        <article data-design-id="quick-card-docentes-17fd90"
+        <a href="aematec_biblioteca-recursos-docentes.html" data-design-id="quick-card-docentes-17fd90"
           class="group bg-white border border-[#D8E3E9] rounded-[20px] p-8 flex gap-7 hover:border-[#00B5C8] hover:shadow-[0_10px_28px_rgba(13,43,69,0.08)]">
           <div
             class="w-[72px] h-[72px] shrink-0 rounded-[16px] bg-[#E6F8FA] text-[#009CAD] flex items-center justify-center text-[28px]">
@@ -96,8 +111,8 @@
                 class="bg-[#F1F5F7] rounded-full px-3 py-1.5">Juegos</span><span
                 class="bg-[#F1F5F7] rounded-full px-3 py-1.5">Planeamientos</span></div>
           </div>
-        </article>
-        <article data-design-id="quick-card-academicos-b3a4c8"
+        </a>
+        <a href="aematec_biblioteca-recursos-academicos.html" data-design-id="quick-card-academicos-b3a4c8"
           class="group bg-[#0D2B45] text-white rounded-[20px] p-8 flex gap-7 hover:bg-[#123852] shadow-[0_10px_24px_rgba(13,43,69,0.13)]">
           <div
             class="w-[72px] h-[72px] shrink-0 rounded-[16px] bg-[#164A62] text-[#43D2DF] flex items-center justify-center text-[28px]">
@@ -115,7 +130,7 @@
                 class="bg-white/10 rounded-full px-3 py-1.5">Apuntes</span><span
                 class="bg-white/10 rounded-full px-3 py-1.5">Soluciones</span></div>
           </div>
-        </article>
+        </a>
       </div>
     </section>
 
@@ -125,10 +140,10 @@
           <div>
             <p class="font-sans text-xs font-bold uppercase tracking-[0.18em] text-[#00A6B8]">Novedades</p>
             <h2 class="font-sans text-[30px] font-bold mt-2">Materiales recientes</h2>
-          </div><a href="#" class="font-sans text-sm font-bold text-[#0C8190]">Ver todos <i
+          </div><a href="aematec_biblioteca-recursos-docentes.html" class="font-sans text-sm font-bold text-[#0C8190]">Ver todos <i
               class="fa-solid fa-arrow-right ml-2"></i></a>
         </div>
-        <div class="grid grid-cols-3 gap-5">
+        <div id="recent-materials-grid" class="grid grid-cols-3 gap-5">
           <article data-design-id="material-card-1-c1820a" class="bg-white rounded-[16px] border border-[#D6E1E6] p-6">
             <div class="flex justify-between items-center"><span
                 class="font-sans text-[11px] font-bold bg-[#DFF6F8] text-[#087F8C] px-3 py-1.5 rounded-full">ACTIVIDAD</span><i
@@ -162,6 +177,24 @@
         </div>
       </div>
     </section>
+    <section class="w-[1240px] mx-auto py-[56px]">
+      <div class="flex items-end justify-between mb-7"><div><p class="font-sans text-xs font-bold uppercase tracking-[0.18em] text-[#00A6B8]">Cursos frecuentes</p><h2 class="font-sans text-[30px] font-bold mt-2">Explora por curso</h2></div><a href="aematec_biblioteca-recursos-academicos.html" class="font-sans text-sm font-bold text-[#0C8190]">Ver todos</a></div>
+      <div class="flex flex-wrap gap-3">
+        <a title="Matemática General" href="aematec_biblioteca-recursos-academicos.html?q=MA0101" class="rounded-full bg-white border border-[#D8E3E9] px-5 py-3 font-sans text-sm font-bold hover:border-[#00B5C8]">MA0101</a>
+        <a title="Cálculo Diferencial e Integral" href="aematec_biblioteca-recursos-academicos.html?q=MA1102" class="rounded-full bg-white border border-[#D8E3E9] px-5 py-3 font-sans text-sm font-bold hover:border-[#00B5C8]">MA1102</a>
+        <a title="Matemática Discreta" href="aematec_biblioteca-recursos-academicos.html?q=MA1403" class="rounded-full bg-white border border-[#D8E3E9] px-5 py-3 font-sans text-sm font-bold hover:border-[#00B5C8]">MA1403</a>
+        <a title="Fundamentos de la matemática I" href="aematec_biblioteca-recursos-academicos.html?q=EM1605" class="rounded-full bg-white border border-[#D8E3E9] px-5 py-3 font-sans text-sm font-bold hover:border-[#00B5C8]">EM1605</a>
+        <a title="Cálculo y Análisis I" href="aematec_biblioteca-recursos-academicos.html?q=EM2603" class="rounded-full bg-white border border-[#D8E3E9] px-5 py-3 font-sans text-sm font-bold hover:border-[#00B5C8]">EM2603</a>
+      </div>
+    </section>
+    <section class="w-[1240px] mx-auto py-[56px]">
+      <div class="flex items-end justify-between mb-7"><div><p class="font-sans text-xs font-bold uppercase tracking-[0.18em] text-[#00A6B8]">Explora por categoría</p><h2 class="font-sans text-[30px] font-bold mt-2">Encuentra lo que necesitas</h2></div></div>
+      <div class="grid grid-cols-3 gap-5">
+        <a href="aematec_biblioteca-recursos-docentes.html" class="rounded-[16px] border border-[#D8E3E9] bg-white p-6 hover:border-[#00B5C8]"><i class="fa-solid fa-chalkboard-user text-2xl text-[#00A6B8]"></i><h3 class="mt-4 font-sans font-bold">Actividades y juegos</h3><p class="mt-2 text-sm text-[#627683]">Recursos listos para llevar al aula.</p></a>
+        <a href="aematec_biblioteca-recursos-academicos.html" class="rounded-[16px] border border-[#D8E3E9] bg-white p-6 hover:border-[#00B5C8]"><i class="fa-solid fa-file-pen text-2xl text-[#486398]"></i><h3 class="mt-4 font-sans font-bold">Exámenes y apuntes</h3><p class="mt-2 text-sm text-[#627683]">Material para acompañar tus cursos.</p></a>
+        <a href="aematec_biblioteca-recursos-docentes.html" class="rounded-[16px] border border-[#D8E3E9] bg-white p-6 hover:border-[#00B5C8]"><i class="fa-solid fa-shapes text-2xl text-[#946316]"></i><h3 class="mt-4 font-sans font-bold">GeoGebra y recursos digitales</h3><p class="mt-2 text-sm text-[#627683]">Explora materiales interactivos.</p></a>
+      </div>
+    </section>
 
     <section data-design-id="upload-cta-section-5a2ef9" class="w-[1240px] mx-auto py-[56px]">
       <div class="bg-white border border-[#CFE0E6] rounded-[20px] p-8 flex items-center justify-between">
@@ -174,9 +207,9 @@
             </p>
           </div>
         </div>
-        <button data-design-id="upload-cta-btn-21fdf8" type="button"
+        <a href="aematec_biblioteca-subir-material.html" data-design-id="upload-cta-btn-21fdf8"
           class="bg-[#00AFC1] text-white h-12 px-7 rounded-[10px] font-sans font-bold text-sm"><i
-            class="fa-solid fa-plus mr-2"></i>Subir material</button>
+            class="fa-solid fa-plus mr-2"></i>Subir material</a>
       </div>
     </section>
   </main>
@@ -192,6 +225,106 @@
       </div>
     </div>
   </footer>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const config = window.AEMATEC_FIREBASE_CONFIG;
+    const recentGrid = document.querySelector("#recent-materials-grid");
+    const escapeHtml = value => String(value || "").replace(/[&<>"']/g, character => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;" }[character]));
+    const iconFor = extension => extension === "pdf" ? "fa-file-pdf" : extension === "pptx" ? "fa-file-powerpoint" : extension === "docx" ? "fa-file-word" : extension === "ggb" ? "fa-shapes" : "fa-file-lines";
+    const courseNames = { MA0101:"Matemática General", MA1102:"Cálculo Diferencial e Integral", MA1403:"Matemática Discreta", MA2104:"Cálculo Superior", EM1605:"Fundamentos de la matemática I", EM2603:"Cálculo y Análisis I", EM2604:"Geometría I", EM1608:"Didáctica del Álgebra y Funciones", EM5008:"Investigación educativa" };
+    const globalResults = document.querySelector("#global-search-results");
+    const globalSearchTitle = document.querySelector("#global-search-title");
+    const globalSearchStatus = document.querySelector("#global-search-status");
+    const globalSearchList = document.querySelector("#global-search-list");
+    let publishedResources = [];
+    let resourcesLoaded = false;
+    let pendingGlobalSearch = "";
+    const renderRecent = resources => {
+      recentGrid.innerHTML = resources.length ? resources.map(resource => `<article class="bg-white rounded-[16px] border border-[#D6E1E6] p-6">
+        <div class="flex justify-between items-center"><span class="font-sans text-[11px] font-bold bg-[#DFF6F8] text-[#087F8C] px-3 py-1.5 rounded-full">${escapeHtml((resource.type || "RECURSO").toUpperCase())}</span><i class="fa-regular ${iconFor(resource.extension)} text-[#78909C] text-xl"></i></div>
+        <h3 class="font-sans font-bold text-lg mt-5 leading-6">${escapeHtml(resource.title)}</h3><p class="mt-3 text-[#627683] text-sm leading-6">${escapeHtml(resource.description)}</p>
+        <div class="mt-6 pt-4 border-t border-[#E4EAED] flex justify-between text-xs text-[#71838D]"><span><i class="fa-solid fa-book mr-2"></i>${escapeHtml(courseNames[resource.course] || resource.course || "Recurso abierto")}</span><a class="font-sans font-bold text-[#008F9E]" href="${escapeHtml(resource.fileUrl)}" target="_blank" rel="noopener">Ver</a></div>
+      </article>`).join("") : '<p class="col-span-3 text-center text-[#627683]">Todavía no hay materiales publicados.</p>';
+    };
+    const renderGlobalResults = (queryText, resources) => {
+      globalResults.classList.remove("hidden");
+      globalSearchTitle.textContent = `Resultados para “${queryText}”`;
+      if (!resources.length) {
+        globalSearchStatus.textContent = "No encontramos materiales que coincidan. Prueba con otro tema, curso o tipo de recurso.";
+        globalSearchList.innerHTML = "";
+        return;
+      }
+      globalSearchStatus.textContent = `${resources.length} ${resources.length === 1 ? "recurso encontrado" : "recursos encontrados"} en la biblioteca.`;
+      globalSearchList.innerHTML = resources.map(resource => {
+        const isAcademic = resource.section === "academico" || resource.section === "academicos";
+        const sectionLabel = isAcademic ? "Recurso académico" : "Recurso docente";
+        const sectionClass = isAcademic ? "bg-[#E9EEF9] text-[#3B568D]" : "bg-[#DFF6F8] text-[#087F8C]";
+        const metadata = resource.course ? `${courseNames[resource.course] || resource.course}` : (resource.level || "Biblioteca AEMATEC");
+        return `<article class="bg-[#F8FBFC] border border-[#D6E2E7] rounded-[15px] p-5 flex items-center gap-5">
+          <div class="w-[52px] h-[60px] rounded-[11px] ${isAcademic ? "bg-[#EDF2FA] text-[#486398]" : "bg-[#E6F8FA] text-[#009CAD]"} flex items-center justify-center text-xl"><i class="fa-regular ${iconFor(resource.extension)}"></i></div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-3 flex-wrap"><span class="font-sans text-[10px] font-bold ${sectionClass} px-2.5 py-1 rounded-full">${sectionLabel}</span><span class="font-sans text-[10px] font-bold text-[#657985]">${escapeHtml((resource.type || "Recurso").toUpperCase())}</span></div>
+            <h3 class="font-sans font-bold text-[18px] mt-2">${escapeHtml(resource.title || "Material sin título")}</h3>
+            <p class="text-sm text-[#687B86] mt-1">${escapeHtml(resource.description || "Sin descripción disponible.")}</p>
+            <p class="text-xs text-[#7A8C96] mt-2"><i class="fa-solid fa-book mr-1"></i>${escapeHtml(metadata)}</p>
+          </div>
+          <a href="${escapeHtml(resource.fileUrl)}" target="_blank" rel="noopener" class="shrink-0 h-11 px-5 bg-[#00AFC1] text-white rounded-[8px] font-sans font-bold text-xs flex items-center"><i class="fa-solid fa-arrow-up-right-from-square mr-2"></i>Ver</a>
+        </article>`;
+      }).join("");
+    };
+    const searchGlobalResources = queryText => {
+      const normalizedQuery = queryText.toLocaleLowerCase("es");
+      const matches = publishedResources.filter(resource => {
+        const searchableText = [resource.title, resource.description, resource.type, resource.course, resource.author, resource.level, resource.topic, courseNames[resource.course]]
+          .filter(Boolean).join(" ").toLocaleLowerCase("es");
+        return searchableText.includes(normalizedQuery);
+      });
+      renderGlobalResults(queryText, matches);
+      globalResults.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    document.querySelector("#global-search-form").addEventListener("submit", event => {
+      event.preventDefault();
+      const queryText = event.target.querySelector("input").value.trim();
+      if (queryText) {
+        if (resourcesLoaded) {
+          searchGlobalResources(queryText);
+        } else {
+          pendingGlobalSearch = queryText;
+          globalResults.classList.remove("hidden");
+          globalSearchTitle.textContent = `Resultados para “${queryText}”`;
+          globalSearchStatus.textContent = "Cargando recursos...";
+          globalSearchList.innerHTML = "";
+          globalResults.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+    });
+    document.querySelector("#clear-global-search").addEventListener("click", () => {
+      pendingGlobalSearch = "";
+      globalResults.classList.add("hidden");
+      document.querySelector("#global-search-form input").value = "";
+      document.querySelector("#global-search-form input").focus();
+    });
+    if (config?.projectId && config.projectId !== "REEMPLAZAR") {
+      try {
+        const app = initializeApp(config);
+        const resourcesSnapshot = await getDocs(query(collection(getFirestore(app), "resources"), where("published", "==", true)));
+        const resources = resourcesSnapshot.docs.map(item => ({ id: item.id, ...item.data() }))
+          .sort((first, second) => (second.createdAt?.seconds || 0) - (first.createdAt?.seconds || 0));
+        publishedResources = resources;
+        resourcesLoaded = true;
+        renderRecent(resources.slice(0, 3));
+        if (pendingGlobalSearch) {
+          const queryText = pendingGlobalSearch;
+          pendingGlobalSearch = "";
+          searchGlobalResources(queryText);
+        }
+      } catch (error) {
+        recentGrid.innerHTML = '<p class="col-span-3 text-center text-[#C2413B]">No se pudieron cargar las novedades.</p>';
+      }
+    }
+  </script>
 </body>
 
 </html>
