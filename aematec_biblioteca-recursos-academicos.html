@@ -21,11 +21,15 @@
       html, body { max-width: 100%; }
       header > div, main > section > div, footer > div { width: auto !important; margin-left: 1rem; margin-right: 1rem; }
       header { height: auto !important; padding: 1rem 0; }
-      header nav { flex-wrap: wrap; justify-content: center; gap: 0.75rem 1rem !important; }
-      header nav a { font-size: 0.75rem; }
-      header > div > a { gap: 0.75rem; }
-      header > div > a img { width: 105px; }
-      header > div > a > span { font-size: 0.9rem; }
+      header > div { display: grid !important; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.75rem; }
+      header > div > a { display: contents; }
+      header > div > a img { grid-column: 1; width: 92px; }
+      header > div > a > div { display: none; }
+      header > div > a > span { grid-column: 2; min-width: 0; overflow: hidden; font-size: 0.82rem; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
+      #mobile-menu-toggle { display: flex; grid-column: 3; }
+      header nav { display: none !important; grid-column: 1 / -1; width: 100%; flex-direction: column; align-items: stretch; gap: 0.5rem !important; padding-top: 0.75rem; border-top: 1px solid #D8E3E9; }
+      header nav.is-open { display: flex !important; }
+      header nav a { width: 100%; padding: 0.7rem 0; font-size: 0.8rem; }
       [data-design-id="academicos-intro-e4b790"] > div { padding-top: 2.5rem; padding-bottom: 2rem; }
       [data-design-id="academicos-intro-e4b790"] h1 { font-size: 2.1rem; }
       [data-design-id="academicos-intro-e4b790"] form { height: auto; min-height: 54px; }
@@ -51,7 +55,7 @@
   <title>Recursos académicos — Biblioteca AEMATEC</title>
 </head>
 <body class="w-[1440px] bg-[#F4F8FA] text-[#0D2B45] font-serif" style="background-image: radial-gradient(circle at 12% 18%, rgba(0, 175, 193, 0.13) 0, rgba(0, 175, 193, 0.13) 1.2px, transparent 1.8px), radial-gradient(circle at 84% 72%, rgba(13, 43, 69, 0.09) 0, rgba(13, 43, 69, 0.09) 1.2px, transparent 1.8px); background-size: 28px 28px, 36px 36px;">
-  <header data-design-id="header-academicos-17e6a2" class="h-[92px] bg-white border-b border-[#D8E3E9] flex items-center"><div class="w-[1240px] mx-auto flex items-center justify-between"><a href="index.html" class="flex items-center gap-5"><img src="assets/logo-aematec.svg" alt="Logo AEMATEC" class="w-[154px]"><div class="h-9 w-px bg-[#D8E3E9]"></div><span class="font-sans font-bold text-[18px]">Biblioteca AEMATEC</span></a><nav data-design-id="nav-academicos-c6829d" class="flex items-center gap-8 font-sans text-[14px] font-semibold"><a href="index.html" class="text-[#405769]">Inicio</a><a href="aematec_biblioteca-recursos-docentes.html" class="text-[#405769]">Recursos docentes</a><a href="aematec_biblioteca-recursos-academicos.html" class="text-[#00A6B8] border-b-2 border-[#00B5C8] py-2">Recursos académicos</a><a data-design-id="upload-academicos-btn-e37514" href="aematec_biblioteca-subir-material.html" class="h-11 px-5 rounded-[10px] bg-[#0D2B45] text-white flex items-center gap-2"><i class="fa-solid fa-arrow-up-from-bracket text-[#39C7D5]"></i> Subir material</a></nav></div></header>
+  <header data-design-id="header-academicos-17e6a2" class="h-[92px] bg-white border-b border-[#D8E3E9] flex items-center"><div class="w-[1240px] mx-auto flex items-center justify-between"><a href="index.html" class="flex items-center gap-5"><img src="assets/logo-aematec.svg" alt="Logo AEMATEC" class="w-[154px]"><div class="h-9 w-px bg-[#D8E3E9]"></div><span class="font-sans font-bold text-[18px]">Biblioteca AEMATEC</span></a><button id="mobile-menu-toggle" type="button" class="hidden h-11 w-11 items-center justify-center rounded-[10px] border border-[#BFD0D8] text-[#0D2B45]" aria-expanded="false" aria-controls="primary-navigation" aria-label="Abrir menú"><i class="fa-solid fa-bars"></i></button><nav id="primary-navigation" data-design-id="nav-academicos-c6829d" class="flex items-center gap-8 font-sans text-[14px] font-semibold"><a href="index.html" class="text-[#405769]">Inicio</a><a href="aematec_biblioteca-recursos-docentes.html" class="text-[#405769]">Recursos docentes</a><a href="aematec_biblioteca-recursos-academicos.html" class="text-[#00A6B8] border-b-2 border-[#00B5C8] py-2">Recursos académicos</a><a data-design-id="upload-academicos-btn-e37514" href="aematec_biblioteca-subir-material.html" class="h-11 px-5 rounded-[10px] bg-[#0D2B45] text-white flex items-center gap-2"><i class="fa-solid fa-arrow-up-from-bracket text-[#39C7D5]"></i> Subir material</a></nav></div></header>
   <main data-design-id="main-academicos-a917d3">
     <section data-design-id="academicos-intro-e4b790" class="bg-[#0D2B45] text-white"><div class="w-[1240px] mx-auto py-[50px] relative overflow-hidden"><div aria-hidden="true" class="pointer-events-none absolute left-[235px] top-[18px] rotate-[-7deg] font-serif text-[56px] leading-none text-white/[0.08]">\( \displaystyle \int_0^1 \frac{sex}{x}\,dx \)</div><div aria-hidden="true" class="pointer-events-none absolute bottom-[-42px] left-[270px] rotate-[-8deg] whitespace-nowrap font-serif text-[92px] font-semibold leading-none text-white/[0.045]">\( \displaystyle x=\frac{-b\pm\sqrt{b^2-4ac}}{2a} \)</div><div class="flex justify-between items-end relative"><div><div class="font-sans text-xs font-semibold text-[#AFC5D1] mb-4"><a href="#">Inicio</a><i class="fa-solid fa-chevron-right text-[9px] mx-3"></i><span class="text-[#4BD4DF]">Recursos académicos</span></div><h1 class="font-sans text-[42px] leading-tight font-bold tracking-[-0.035em]">Recursos académicos</h1><p class="text-[18px] text-[#C7D6DF] mt-3 max-w-[730px]">Apuntes, exámenes anteriores y soluciones para acompañar tu recorrido por los cursos de MATEC.</p></div><div class="w-[92px] h-[92px] rounded-[20px] bg-white/10 text-[#4BD4DF] flex items-center justify-center text-[38px]"><i class="fa-solid fa-square-root-variable"></i></div></div><form data-design-id="academicos-search-form-c5e77a" action="#" class="relative mt-9 h-[58px] bg-white rounded-[12px] flex items-center p-1.5 shadow-lg"><i class="fa-solid fa-magnifying-glass text-[#00A6B8] ml-4"></i><input class="flex-1 h-full outline-none px-4 text-base text-[#18384E]" placeholder="Buscar por curso, tema o nombre del material..."><button data-design-id="academicos-search-btn-6f1d87" type="button" class="h-[44px] px-7 bg-[#00AFC1] text-white font-sans font-bold text-sm rounded-[9px]">Buscar</button></form></div></section>
     <section data-design-id="course-shortcuts-f2a711" class="bg-white border-b border-[#DCE6EA]"><div class="w-[1240px] mx-auto flex flex-wrap items-center gap-3 py-5"><span class="font-sans text-xs font-bold uppercase tracking-[0.12em] text-[#697D89] mr-2">Cursos frecuentes</span><a data-course="MA1403" title="Matemática Discreta" href="#" class="font-sans text-xs font-bold bg-[#0D2B45] text-white px-4 py-2 rounded-full">MA1403</a><a data-course="EM1605" title="Fundamentos de la matemática I" href="#" class="font-sans text-xs font-bold bg-[#EDF3F5] px-4 py-2 rounded-full">EM1605</a><a data-course="EM2603" title="Cálculo y Análisis I" href="#" class="font-sans text-xs font-bold bg-[#EDF3F5] px-4 py-2 rounded-full">EM2603</a><a data-course="EM2604" title="Geometría I" href="#" class="font-sans text-xs font-bold bg-[#EDF3F5] px-4 py-2 rounded-full">EM2604</a><a data-course="EM1608" title="Didáctica del Álgebra y Funciones" href="#" class="font-sans text-xs font-bold bg-[#EDF3F5] px-4 py-2 rounded-full">EM1608</a><button id="show-course-legend" type="button" aria-expanded="false" class="font-sans text-xs font-bold text-[#008C9A] ml-2">Ver leyenda de cursos <i id="course-legend-icon" class="fa-solid fa-chevron-right ml-1 text-[9px]"></i></button></div></section>
@@ -70,6 +74,14 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    const mobileMenuToggle = document.querySelector("#mobile-menu-toggle");
+    const primaryNavigation = document.querySelector("#primary-navigation");
+    mobileMenuToggle.addEventListener("click", () => {
+      const isOpen = primaryNavigation.classList.toggle("is-open");
+      mobileMenuToggle.setAttribute("aria-expanded", String(isOpen));
+      mobileMenuToggle.setAttribute("aria-label", isOpen ? "Cerrar menú" : "Abrir menú");
+      mobileMenuToggle.innerHTML = `<i class="fa-solid ${isOpen ? "fa-xmark" : "fa-bars"}"></i>`;
+    });
     const courseNames = {
       EM1401:"Introducción a la pedagogía", EM1404:"Teorías Psicopedagógicas del aprendizaje", EM1605:"Fundamentos de la matemática I",
       MA1403:"Matemática Discreta", EM1600:"Tecnologías Digitales aplicadas a la matemática educativa I", EM1606:"Fundamentos de la matemática II",

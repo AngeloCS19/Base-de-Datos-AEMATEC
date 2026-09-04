@@ -28,11 +28,15 @@
       html, body { max-width: 100%; }
       header > div, main > section > div, footer > div { width: auto !important; margin-left: 1rem; margin-right: 1rem; }
       header { height: auto !important; padding: 1rem 0; }
-      header nav { flex-wrap: wrap; justify-content: center; gap: 0.75rem 1rem !important; }
-      header nav a { font-size: 0.75rem; }
-      header > div > a { gap: 0.75rem; }
-      header > div > a img { width: 105px; }
-      header > div > a > span { font-size: 0.9rem; }
+      header > div { display: grid !important; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.75rem; }
+      header > div > a { display: contents; }
+      header > div > a img { grid-column: 1; width: 92px; }
+      header > div > a > div { display: none; }
+      header > div > a > span { grid-column: 2; min-width: 0; overflow: hidden; font-size: 0.82rem; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
+      #mobile-menu-toggle { display: flex; grid-column: 3; }
+      header nav { display: none !important; grid-column: 1 / -1; width: 100%; flex-direction: column; align-items: stretch; gap: 0.5rem !important; padding-top: 0.75rem; border-top: 1px solid #D8E3E9; }
+      header nav.is-open { display: flex !important; }
+      header nav a { width: 100%; padding: 0.7rem 0; font-size: 0.8rem; }
       [data-design-id="docentes-intro-1978be"] > div { padding-top: 2.5rem; padding-bottom: 2rem; }
       [data-design-id="docentes-intro-1978be"] h1 { font-size: 2.1rem; }
       [data-design-id="docentes-intro-1978be"] form { height: auto; min-height: 54px; }
@@ -66,7 +70,8 @@
           class="w-[154px]">
         <div class="h-9 w-px bg-[#D8E3E9]"></div><span class="font-sans font-bold text-[18px]">Biblioteca AEMATEC</span>
       </a>
-      <nav data-design-id="nav-docentes-972d4a" class="flex items-center gap-8 font-sans text-[14px] font-semibold">
+      <button id="mobile-menu-toggle" type="button" class="hidden h-11 w-11 items-center justify-center rounded-[10px] border border-[#BFD0D8] text-[#0D2B45]" aria-expanded="false" aria-controls="primary-navigation" aria-label="Abrir menú"><i class="fa-solid fa-bars"></i></button>
+      <nav id="primary-navigation" data-design-id="nav-docentes-972d4a" class="flex items-center gap-8 font-sans text-[14px] font-semibold">
         <a href="index.html" class="text-[#405769]">Inicio</a><a href="aematec_biblioteca-recursos-docentes.html"
           class="text-[#00A6B8] border-b-2 border-[#00B5C8] py-2">Recursos docentes</a><a
           href="aematec_biblioteca-recursos-academicos.html" class="text-[#405769]">Recursos académicos</a>
@@ -287,6 +292,14 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+    const mobileMenuToggle = document.querySelector("#mobile-menu-toggle");
+    const primaryNavigation = document.querySelector("#primary-navigation");
+    mobileMenuToggle.addEventListener("click", () => {
+      const isOpen = primaryNavigation.classList.toggle("is-open");
+      mobileMenuToggle.setAttribute("aria-expanded", String(isOpen));
+      mobileMenuToggle.setAttribute("aria-label", isOpen ? "Cerrar menú" : "Abrir menú");
+      mobileMenuToggle.innerHTML = `<i class="fa-solid ${isOpen ? "fa-xmark" : "fa-bars"}"></i>`;
+    });
     const config = window.AEMATEC_FIREBASE_CONFIG;
     const grid = document.querySelector("#docentes-resource-grid");
     const count = document.querySelector("#docentes-count");
