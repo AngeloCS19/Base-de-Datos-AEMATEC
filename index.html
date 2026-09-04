@@ -19,20 +19,20 @@
       body.w-\[1440px\] { width: 100% !important; overflow-x: hidden; }
       header > div, main > section > div, footer > div { width: auto !important; margin-left: 1rem; margin-right: 1rem; }
       header { height: auto !important; padding: 1rem 0; }
-      header > div { position: relative; flex-wrap: wrap; gap: 1rem; }
+      header > div { position: relative; flex-wrap: wrap; gap: 1rem; padding-left: 0.25rem; padding-right: 0.25rem; }
       header > div > a { gap: 0.75rem; min-width: 0; }
       header > div > a img { width: 105px; }
       header > div > a > span { font-size: 0.9rem; }
       #mobile-menu-toggle { display: flex; margin-left: auto; }
-      header nav { display: none; width: 100%; flex-direction: column; align-items: stretch; gap: 0.5rem !important; padding-top: 0.75rem; border-top: 1px solid #D8E3E9; }
-      header nav.is-open { display: flex; }
+      header nav { display: none !important; width: 100%; flex-direction: column; align-items: stretch; gap: 0.5rem !important; padding-top: 0.75rem; border-top: 1px solid #D8E3E9; }
+      header nav.is-open { display: flex !important; }
       header nav a { width: 100%; padding: 0.7rem 0; font-size: 0.8rem; }
       header nav a.bg-\[\#0D2B45\] { justify-content: center; }
       main > section:not([data-design-id="hero-section-16a5bf"]):not(#global-search-results) { width: 100% !important; }
       main > section:not([data-design-id="hero-section-16a5bf"]):not(#global-search-results) > div { width: auto !important; margin-left: 1rem; margin-right: 1rem; }
-      [data-design-id="hero-section-16a5bf"] > div { min-height: auto; padding: 3rem 0 2.5rem; }
-      [data-design-id="hero-section-16a5bf"] h1 { font-size: clamp(2.1rem, 9vw, 3.2rem); }
-      [data-design-id="hero-section-16a5bf"] p { font-size: 1rem; line-height: 1.7; }
+      [data-design-id="hero-section-16a5bf"] > div { width: auto !important; min-height: auto; margin-left: 1rem; margin-right: 1rem; padding: 3rem 0 2.5rem; }
+      [data-design-id="hero-section-16a5bf"] h1 { max-width: 100%; font-size: clamp(2rem, 8.5vw, 3.2rem); overflow-wrap: break-word; }
+      [data-design-id="hero-section-16a5bf"] p { max-width: 100%; font-size: 1rem; line-height: 1.7; }
       #global-search-form { width: 100%; height: auto; min-height: 58px; }
       #global-search-form input { min-width: 0; font-size: 0.9rem; }
       #global-search-form button { padding-left: 1rem; padding-right: 1rem; }
