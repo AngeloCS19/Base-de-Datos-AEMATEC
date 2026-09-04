@@ -4,13 +4,14 @@ service firebase.storage {
     match /recursos/docentes/{fileName} {
       allow read: if true;
       allow write: if request.resource.size <= 25 * 1024 * 1024
-        && fileName.matches('^[a-f0-9-]+\\.(pdf|docx|pptx|xlsx|zip)$')
+        && fileName.matches('^[a-f0-9-]+\\.(pdf|docx|pptx|xlsx|zip|ggb)$')
         && request.resource.contentType in [
           'application/pdf',
           'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
           'application/vnd.openxmlformats-officedocument.presentationml.presentation',
           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
           'application/zip', 'application/x-zip-compressed',
+          'application/vnd.geogebra.file',
           'application/octet-stream'
         ];
     }

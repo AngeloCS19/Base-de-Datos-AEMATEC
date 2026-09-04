@@ -10,10 +10,17 @@ service cloud.firestore {
         && request.resource.data.description.size() <= 300
         && request.resource.data.author is string && request.resource.data.author.size() > 0
         && request.resource.data.author.size() <= 120
+        && request.resource.data.materials is string && request.resource.data.materials.size() <= 300
+        && request.resource.data.requiresInternet is bool
         && request.resource.data.type in ['Actividad', 'Juego', 'Planeamiento', 'Guía didáctica', 'Recurso digital']
-        && request.resource.data.extension in ['pdf', 'docx', 'pptx', 'xlsx', 'zip']
+        && request.resource.data.extension in ['pdf', 'docx', 'pptx', 'xlsx', 'zip', 'ggb']
         && request.resource.data.size is number && request.resource.data.size <= 25 * 1024 * 1024
-        && request.resource.data.published == true;
+        && request.resource.data.status == 'pending'
+        && request.resource.data.published == false;
+      allow update: if request.auth != null
+        && request.auth.token.email == 'angeloyeshuac@gmail.com'
+        && request.resource.data.status in ['approved', 'rejected']
+        && request.resource.data.published == (request.resource.data.status == 'approved');
     }
   }
 }

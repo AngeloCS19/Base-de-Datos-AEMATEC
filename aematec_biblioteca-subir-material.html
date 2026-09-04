@@ -23,7 +23,9 @@
             <div><label for="type" class="font-sans font-bold text-xs text-[#385367]">Tipo de recurso <span class="text-[#C2413B]">*</span></label><select id="type" name="type" required class="mt-2 w-full h-11 border border-[#BFD0D8] rounded-[9px] px-3 bg-white text-[#435D6D]"><option value="">Seleccionar tipo</option><option>Actividad</option><option>Juego</option><option>Planeamiento</option><option>Guía didáctica</option><option>Recurso digital</option></select></div>
             <div><label for="course" class="font-sans font-bold text-xs text-[#385367]">Curso o nivel al que aplica</label><input id="course" name="course" maxlength="80" class="mt-2 w-full h-11 border border-[#BFD0D8] rounded-[9px] px-4" placeholder="Ej. Décimo año o MA1001"></div>
             <div><label for="author" class="font-sans font-bold text-xs text-[#385367]">Autor o fuente original <span class="text-[#C2413B]">*</span></label><input id="author" name="author" required maxlength="120" class="mt-2 w-full h-11 border border-[#BFD0D8] rounded-[9px] px-4" placeholder="Nombre para citar correctamente"></div>
-            <div class="col-span-2"><label for="file" class="font-sans font-bold text-xs text-[#385367]">Archivo <span class="text-[#C2413B]">*</span></label><label id="file-dropzone" for="file" class="mt-2 h-[112px] border-2 border-dashed border-[#93C9D0] bg-[#F4FBFC] rounded-[12px] flex flex-col items-center justify-center text-center cursor-pointer"><i class="fa-solid fa-arrow-up-from-bracket text-[#00A6B8] text-xl"></i><p id="file-label" class="font-sans text-sm font-bold mt-2">Arrastra tu archivo aquí o <span class="text-[#008F9E] underline">selecciónalo</span></p><p class="text-[11px] text-[#748792] mt-1">PDF, DOCX, PPTX, XLSX o ZIP · Máximo 25 MB</p></label><input id="file" name="file" type="file" required accept=".pdf,.docx,.pptx,.xlsx,.zip" class="sr-only"></div>
+            <div><label for="materials" class="font-sans font-bold text-xs text-[#385367]">Materiales</label><input id="materials" name="materials" maxlength="300" class="mt-2 w-full h-11 border border-[#BFD0D8] rounded-[9px] px-4" placeholder="Ej. Regla, hojas blancas y marcadores"></div>
+            <label class="flex items-center gap-3 self-end h-11 font-sans text-xs font-bold text-[#385367]"><input id="requires-internet" name="requiresInternet" type="checkbox" class="h-4 w-4 accent-[#00AFC1]"> Requiere internet</label>
+            <div class="col-span-2"><label for="file" class="font-sans font-bold text-xs text-[#385367]">Archivo <span class="text-[#C2413B]">*</span></label><label id="file-dropzone" for="file" class="mt-2 h-[112px] border-2 border-dashed border-[#93C9D0] bg-[#F4FBFC] rounded-[12px] flex flex-col items-center justify-center text-center cursor-pointer"><i class="fa-solid fa-arrow-up-from-bracket text-[#00A6B8] text-xl"></i><p id="file-label" class="font-sans text-sm font-bold mt-2">Arrastra tu archivo aquí o <span class="text-[#008F9E] underline">selecciónalo</span></p><p class="text-[11px] text-[#748792] mt-1">PDF, DOCX, PPTX, XLSX, ZIP o GGB · Máximo 25 MB</p></label><input id="file" name="file" type="file" required accept=".pdf,.docx,.pptx,.xlsx,.zip,.ggb" class="sr-only"></div>
           </div>
           <div class="mt-5 bg-[#F1F6F8] border border-[#DCE6EA] rounded-[10px] px-4 py-3 flex gap-3 text-sm text-[#506773]"><i class="fa-solid fa-circle-info text-[#00A6B8] mt-1"></i><p>Al compartir, confirmas que tienes permiso para publicar el material y que la autoría o fuente indicada es correcta.</p></div>
           <p id="upload-status" role="status" aria-live="polite" class="mt-4 text-sm" hidden></p><footer data-design-id="upload-form-footer-8f639e" class="mt-6 pt-5 border-t border-[#E0E8EC] flex justify-between items-center"><p class="text-xs text-[#718590]"><i class="fa-solid fa-earth-americas mr-2 text-[#00A6B8]"></i>El material será visible públicamente.</p><div class="flex gap-3"><a href="aematec_biblioteca-recursos-docentes.html" data-design-id="cancel-upload-btn-381fb3" class="h-11 px-6 border border-[#AFC2CB] rounded-[9px] flex items-center rounded-[9px] font-sans text-xs font-bold text-[#425D6C]">Cancelar</a><button data-design-id="submit-upload-btn-a817e0" type="submit" class="h-11 px-7 bg-[#00AFC1] text-white rounded-[9px] font-sans text-xs font-bold shadow-sm"><i class="fa-solid fa-cloud-arrow-up mr-2"></i>Publicar material</button></div></footer>
@@ -44,7 +46,7 @@
   const status = document.querySelector("#upload-status");
   const description = document.querySelector("#description");
   const submit = form.querySelector('button[type="submit"]');
-  const allowedExtensions = new Set(["pdf", "docx", "pptx", "xlsx", "zip"]);
+  const allowedExtensions = new Set(["pdf", "docx", "pptx", "xlsx", "zip", "ggb"]);
   const maxSize = 25 * 1024 * 1024;
 
   description.addEventListener("input", () => {
@@ -82,7 +84,7 @@
       return;
     }
     if (!file || !extension || !allowedExtensions.has(extension) || file.size > maxSize) {
-      showStatus("Selecciona un archivo PDF, DOCX, PPTX, XLSX o ZIP de máximo 25 MB.", true);
+      showStatus("Selecciona un archivo PDF, DOCX, PPTX, XLSX, ZIP o GGB de máximo 25 MB.", true);
       return;
     }
     if (!config?.apiKey || config.apiKey === "REEMPLAZAR") {
@@ -110,12 +112,13 @@
       await addDoc(collection(db, "resources"), {
         title: form.title.value.trim(), description: form.description.value.trim(),
         section: form.section.value, type: form.type.value, course: form.course.value.trim(),
-        author: form.author.value.trim(), extension, size: file.size, storagePath, fileUrl,
-        published: true, createdAt: serverTimestamp()
+        author: form.author.value.trim(), materials: form.materials.value.trim(),
+        requiresInternet: form.requiresInternet.checked, extension, size: file.size, storagePath, fileUrl,
+        status: "pending", published: false, createdAt: serverTimestamp()
       });
       form.reset();
       fileLabel.textContent = "Arrastra tu archivo aquí o selecciónalo";
-      showStatus("Material publicado correctamente. Ya está disponible para la comunidad.");
+      showStatus("Material enviado correctamente. Quedará disponible después de la revisión de un moderador.");
     } catch (error) {
       showStatus(`No se pudo publicar el material: ${error.message}`, true);
     } finally {
