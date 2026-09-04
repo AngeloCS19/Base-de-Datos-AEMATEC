@@ -14,6 +14,8 @@ service firebase.storage {
           'application/vnd.geogebra.file',
           'application/octet-stream'
         ];
+      allow delete: if request.auth != null
+        && request.auth.token.email == 'angeloyeshuac@gmail.com';
     }
   }
 }
