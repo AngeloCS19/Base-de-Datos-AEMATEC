@@ -4,30 +4,121 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+  <script src="assets/firebase-config.js"></script>
   <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Montserrat','sans-serif'],serif:['Source Serif 4','serif']}}}}</script><title>Subir material — Biblioteca AEMATEC</title>
 </head>
 <body class="w-[1440px] bg-[#DCE5E9] text-[#0D2B45] font-serif">
-  <header data-design-id="header-upload-bg-cab731" class="h-[92px] bg-white border-b border-[#D8E3E9] flex items-center opacity-90"><div class="w-[1240px] mx-auto flex items-center justify-between"><a href="#" class="flex items-center gap-5"><img src="assets/logo-aematec-horizontal.png" alt="Logo AEMATEC" class="w-[154px]"><div class="h-9 w-px bg-[#D8E3E9]"></div><span class="font-sans font-bold text-[18px]">Biblioteca AEMATEC</span></a><nav data-design-id="nav-upload-bg-643df1" class="flex items-center gap-8 font-sans text-[14px] font-semibold"><a href="#">Inicio</a><a href="#">Recursos docentes</a><a href="#">Recursos académicos</a><button data-design-id="upload-active-btn-3dac61" type="button" class="h-11 px-5 rounded-[10px] bg-[#0D2B45] text-white"><i class="fa-solid fa-arrow-up-from-bracket text-[#39C7D5] mr-2"></i>Subir material</button></nav></div></header>
+  <header data-design-id="header-upload-bg-cab731" class="h-[92px] bg-white border-b border-[#D8E3E9] flex items-center opacity-90"><div class="w-[1240px] mx-auto flex items-center justify-between"><a href="index.html" class="flex items-center gap-5"><img src="assets/logo-aematec.svg" alt="Logo AEMATEC" class="w-[154px]"><div class="h-9 w-px bg-[#D8E3E9]"></div><span class="font-sans font-bold text-[18px]">Biblioteca AEMATEC</span></a><nav data-design-id="nav-upload-bg-643df1" class="flex items-center gap-8 font-sans text-[14px] font-semibold"><a href="index.html">Inicio</a><a href="aematec_biblioteca-recursos-docentes.html">Recursos docentes</a><a href="aematec_biblioteca-recursos-academicos.html">Recursos académicos</a><span class="h-11 px-5 rounded-[10px] bg-[#0D2B45] text-white"><i class="fa-solid fa-arrow-up-from-bracket text-[#39C7D5] mr-2"></i>Subir material</span></nav></div></header>
   <main data-design-id="main-upload-modal-8fd69e" class="relative min-h-[900px]">
     <section data-design-id="background-content-0d3e64" class="absolute inset-0 opacity-35 pointer-events-none"><div class="w-[1240px] mx-auto py-12"><h1 class="font-sans text-[42px] font-bold">Materiales recientes</h1><div class="grid grid-cols-3 gap-6 mt-8"><div class="h-56 bg-white border border-[#CBD9DF] rounded-[16px]"></div><div class="h-56 bg-white border border-[#CBD9DF] rounded-[16px]"></div><div class="h-56 bg-white border border-[#CBD9DF] rounded-[16px]"></div></div></div></section>
     <div class="absolute inset-0 bg-[#0D2B45]/55"></div>
     <section data-design-id="upload-dialog-section-c3f81a" class="relative py-9 flex justify-center">
       <article data-design-id="upload-dialog-card-d6e09b" class="w-[820px] bg-white rounded-[20px] shadow-[0_28px_80px_rgba(0,0,0,0.30)] overflow-hidden">
         <header data-design-id="upload-dialog-header-0b615a" class="px-9 py-6 border-b border-[#DFE7EA] flex items-center justify-between"><div class="flex items-center gap-4"><div class="w-12 h-12 rounded-[12px] bg-[#E1F7F9] text-[#00A6B8] flex items-center justify-center text-xl"><i class="fa-solid fa-cloud-arrow-up"></i></div><div><h1 class="font-sans font-bold text-[25px] tracking-[-0.02em]">Subir material</h1><p class="text-sm text-[#687C88] mt-1">Comparte un recurso con la comunidad MATEC.</p></div></div><button data-design-id="close-upload-btn-ae3f24" type="button" class="w-10 h-10 rounded-full bg-[#F0F4F6] text-[#5F7480]" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button></header>
-        <form data-design-id="upload-material-form-e8cd2f" action="#" class="px-9 py-7">
+        <form id="upload-material-form" data-design-id="upload-material-form-e8cd2f" class="px-9 py-7" novalidate>
           <div class="grid grid-cols-2 gap-x-5 gap-y-5">
-            <div class="col-span-2"><label class="font-sans font-bold text-xs text-[#385367]">Título del material <span class="text-[#C2413B]">*</span></label><input class="mt-2 w-full h-11 border border-[#BFD0D8] rounded-[9px] px-4 outline-none focus:border-[#00AFC1]" placeholder="Ej. Guía de funciones trigonométricas"></div>
-            <div class="col-span-2"><label class="font-sans font-bold text-xs text-[#385367]">Descripción <span class="text-[#C2413B]">*</span></label><textarea class="mt-2 w-full h-[86px] border border-[#BFD0D8] rounded-[9px] px-4 py-3 outline-none resize-none focus:border-[#00AFC1]" placeholder="Describe brevemente el contenido y cómo puede utilizarse..."></textarea><p class="text-right text-[11px] text-[#8798A1] mt-1">0 / 300 caracteres</p></div>
-            <div><label class="font-sans font-bold text-xs text-[#385367]">Sección <span class="text-[#C2413B]">*</span></label><div class="mt-2 grid grid-cols-2 gap-2"><label class="h-11 border-2 border-[#00AFC1] bg-[#EAF9FA] text-[#087F8C] rounded-[9px] flex items-center justify-center gap-2 font-sans text-xs font-bold"><input type="radio" name="section" checked class="accent-[#00AFC1]"> Docentes</label><label class="h-11 border border-[#C8D6DC] rounded-[9px] flex items-center justify-center gap-2 font-sans text-xs font-bold text-[#526A78]"><input type="radio" name="section" class="accent-[#00AFC1]"> Académico</label></div></div>
-            <div><label class="font-sans font-bold text-xs text-[#385367]">Tipo de recurso <span class="text-[#C2413B]">*</span></label><select class="mt-2 w-full h-11 border border-[#BFD0D8] rounded-[9px] px-3 bg-white text-[#435D6D]"><option>Seleccionar tipo</option><option>Actividad</option><option>Juego</option><option>Planeamiento</option><option>Guía didáctica</option></select></div>
-            <div><label class="font-sans font-bold text-xs text-[#385367]">Curso o nivel al que aplica</label><input class="mt-2 w-full h-11 border border-[#BFD0D8] rounded-[9px] px-4" placeholder="Ej. Décimo año o MA1001"></div>
-            <div><label class="font-sans font-bold text-xs text-[#385367]">Autor o fuente original <span class="text-[#C2413B]">*</span></label><input class="mt-2 w-full h-11 border border-[#BFD0D8] rounded-[9px] px-4" placeholder="Nombre para citar correctamente"></div>
-            <div class="col-span-2"><label class="font-sans font-bold text-xs text-[#385367]">Archivo <span class="text-[#C2413B]">*</span></label><div class="mt-2 h-[112px] border-2 border-dashed border-[#93C9D0] bg-[#F4FBFC] rounded-[12px] flex flex-col items-center justify-center text-center"><i class="fa-solid fa-arrow-up-from-bracket text-[#00A6B8] text-xl"></i><p class="font-sans text-sm font-bold mt-2">Arrastra tu archivo aquí o <span class="text-[#008F9E] underline">selecciónalo</span></p><p class="text-[11px] text-[#748792] mt-1">PDF, DOCX, PPTX, XLSX o ZIP · Máximo 25 MB</p></div></div>
+            <div class="col-span-2"><label for="title" class="font-sans font-bold text-xs text-[#385367]">Título del material <span class="text-[#C2413B]">*</span></label><input id="title" name="title" required maxlength="120" class="mt-2 w-full h-11 border border-[#BFD0D8] rounded-[9px] px-4 outline-none focus:border-[#00AFC1]" placeholder="Ej. Guía de funciones trigonométricas"></div>
+            <div class="col-span-2"><label for="description" class="font-sans font-bold text-xs text-[#385367]">Descripción <span class="text-[#C2413B]">*</span></label><textarea id="description" name="description" required maxlength="300" class="mt-2 w-full h-[86px] border border-[#BFD0D8] rounded-[9px] px-4 py-3 outline-none resize-none focus:border-[#00AFC1]" placeholder="Describe brevemente el contenido y cómo puede utilizarse..."></textarea><p id="description-count" class="text-right text-[11px] text-[#8798A1] mt-1">0 / 300 caracteres</p></div>
+            <div><span class="font-sans font-bold text-xs text-[#385367]">Sección <span class="text-[#C2413B]">*</span></span><div class="mt-2 grid grid-cols-2 gap-2"><label class="h-11 border-2 border-[#00AFC1] bg-[#EAF9FA] text-[#087F8C] rounded-[9px] flex items-center justify-center gap-2 font-sans text-xs font-bold"><input type="radio" name="section" value="docentes" checked class="accent-[#00AFC1]"> Docentes</label><label class="h-11 border border-[#C8D6DC] rounded-[9px] flex items-center justify-center gap-2 font-sans text-xs font-bold text-[#526A78]"><input type="radio" name="section" value="academico" class="accent-[#00AFC1]"> Académico</label></div></div>
+            <div><label for="type" class="font-sans font-bold text-xs text-[#385367]">Tipo de recurso <span class="text-[#C2413B]">*</span></label><select id="type" name="type" required class="mt-2 w-full h-11 border border-[#BFD0D8] rounded-[9px] px-3 bg-white text-[#435D6D]"><option value="">Seleccionar tipo</option><option>Actividad</option><option>Juego</option><option>Planeamiento</option><option>Guía didáctica</option><option>Recurso digital</option></select></div>
+            <div><label for="course" class="font-sans font-bold text-xs text-[#385367]">Curso o nivel al que aplica</label><input id="course" name="course" maxlength="80" class="mt-2 w-full h-11 border border-[#BFD0D8] rounded-[9px] px-4" placeholder="Ej. Décimo año o MA1001"></div>
+            <div><label for="author" class="font-sans font-bold text-xs text-[#385367]">Autor o fuente original <span class="text-[#C2413B]">*</span></label><input id="author" name="author" required maxlength="120" class="mt-2 w-full h-11 border border-[#BFD0D8] rounded-[9px] px-4" placeholder="Nombre para citar correctamente"></div>
+            <div class="col-span-2"><label for="file" class="font-sans font-bold text-xs text-[#385367]">Archivo <span class="text-[#C2413B]">*</span></label><label id="file-dropzone" for="file" class="mt-2 h-[112px] border-2 border-dashed border-[#93C9D0] bg-[#F4FBFC] rounded-[12px] flex flex-col items-center justify-center text-center cursor-pointer"><i class="fa-solid fa-arrow-up-from-bracket text-[#00A6B8] text-xl"></i><p id="file-label" class="font-sans text-sm font-bold mt-2">Arrastra tu archivo aquí o <span class="text-[#008F9E] underline">selecciónalo</span></p><p class="text-[11px] text-[#748792] mt-1">PDF, DOCX, PPTX, XLSX o ZIP · Máximo 25 MB</p></label><input id="file" name="file" type="file" required accept=".pdf,.docx,.pptx,.xlsx,.zip" class="sr-only"></div>
           </div>
           <div class="mt-5 bg-[#F1F6F8] border border-[#DCE6EA] rounded-[10px] px-4 py-3 flex gap-3 text-sm text-[#506773]"><i class="fa-solid fa-circle-info text-[#00A6B8] mt-1"></i><p>Al compartir, confirmas que tienes permiso para publicar el material y que la autoría o fuente indicada es correcta.</p></div>
-          <footer data-design-id="upload-form-footer-8f639e" class="mt-6 pt-5 border-t border-[#E0E8EC] flex justify-between items-center"><p class="text-xs text-[#718590]"><i class="fa-solid fa-earth-americas mr-2 text-[#00A6B8]"></i>El material será visible públicamente.</p><div class="flex gap-3"><button data-design-id="cancel-upload-btn-381fb3" type="button" class="h-11 px-6 border border-[#AFC2CB] rounded-[9px] font-sans text-xs font-bold text-[#425D6C]">Cancelar</button><button data-design-id="submit-upload-btn-a817e0" type="button" class="h-11 px-7 bg-[#00AFC1] text-white rounded-[9px] font-sans text-xs font-bold shadow-sm"><i class="fa-solid fa-cloud-arrow-up mr-2"></i>Publicar material</button></div></footer>
+          <p id="upload-status" role="status" aria-live="polite" class="mt-4 text-sm" hidden></p><footer data-design-id="upload-form-footer-8f639e" class="mt-6 pt-5 border-t border-[#E0E8EC] flex justify-between items-center"><p class="text-xs text-[#718590]"><i class="fa-solid fa-earth-americas mr-2 text-[#00A6B8]"></i>El material será visible públicamente.</p><div class="flex gap-3"><a href="aematec_biblioteca-recursos-docentes.html" data-design-id="cancel-upload-btn-381fb3" class="h-11 px-6 border border-[#AFC2CB] rounded-[9px] flex items-center rounded-[9px] font-sans text-xs font-bold text-[#425D6C]">Cancelar</a><button data-design-id="submit-upload-btn-a817e0" type="submit" class="h-11 px-7 bg-[#00AFC1] text-white rounded-[9px] font-sans text-xs font-bold shadow-sm"><i class="fa-solid fa-cloud-arrow-up mr-2"></i>Publicar material</button></div></footer>
         </form>
       </article>
     </section>
   </main>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+  const config = window.AEMATEC_FIREBASE_CONFIG;
+  const form = document.querySelector("#upload-material-form");
+  const fileInput = document.querySelector("#file");
+  const dropzone = document.querySelector("#file-dropzone");
+  const fileLabel = document.querySelector("#file-label");
+  const status = document.querySelector("#upload-status");
+  const description = document.querySelector("#description");
+  const submit = form.querySelector('button[type="submit"]');
+  const allowedExtensions = new Set(["pdf", "docx", "pptx", "xlsx", "zip"]);
+  const maxSize = 25 * 1024 * 1024;
+
+  description.addEventListener("input", () => {
+    document.querySelector("#description-count").textContent = `${description.value.length} / 300 caracteres`;
+  });
+  fileInput.addEventListener("change", () => {
+    fileLabel.textContent = fileInput.files[0]?.name || "Arrastra tu archivo aquí o selecciónalo";
+  });
+  dropzone.addEventListener("dragover", event => {
+    event.preventDefault();
+    dropzone.classList.add("border-[#00AFC1]");
+  });
+  dropzone.addEventListener("dragleave", () => dropzone.classList.remove("border-[#00AFC1]"));
+  dropzone.addEventListener("drop", event => {
+    event.preventDefault();
+    dropzone.classList.remove("border-[#00AFC1]");
+    if (event.dataTransfer.files.length) {
+      fileInput.files = event.dataTransfer.files;
+      fileInput.dispatchEvent(new Event("change"));
+    }
+  });
+
+  function showStatus(message, error = false) {
+    status.hidden = false;
+    status.textContent = message;
+    status.className = `mt-4 text-sm ${error ? "text-[#C2413B]" : "text-[#087F8C]"}`;
+  }
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const file = fileInput.files[0];
+    const extension = file?.name.split(".").pop()?.toLowerCase();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    if (!file || !extension || !allowedExtensions.has(extension) || file.size > maxSize) {
+      showStatus("Selecciona un archivo PDF, DOCX, PPTX, XLSX o ZIP de máximo 25 MB.", true);
+      return;
+    }
+    if (!config?.apiKey || config.apiKey === "REEMPLAZAR") {
+      showStatus("La biblioteca aún no está conectada a Firebase. Configura assets/firebase-config.js.", true);
+      return;
+    }
+    submit.disabled = true;
+    submit.textContent = "Publicando...";
+    try {
+      const app = initializeApp(config);
+      const storage = getStorage(app);
+      const db = getFirestore(app);
+      const resourceId = crypto.randomUUID();
+      const storagePath = `recursos/docentes/${resourceId}.${extension}`;
+      const upload = uploadBytesResumable(ref(storage, storagePath), file, { contentType: file.type || "application/octet-stream" });
+      await new Promise((resolve, reject) => {
+        upload.on("state_changed", snapshot => {
+          showStatus(`Subiendo archivo: ${Math.round(snapshot.bytesTransferred / snapshot.totalBytes * 100)}%`);
+        }, reject, resolve);
+      });
+      const fileUrl = await getDownloadURL(upload.snapshot.ref);
+      await addDoc(collection(db, "resources"), {
+        title: form.title.value.trim(), description: form.description.value.trim(),
+        section: form.section.value, type: form.type.value, course: form.course.value.trim(),
+        author: form.author.value.trim(), extension, size: file.size, storagePath, fileUrl,
+        published: true, createdAt: serverTimestamp()
+      });
+      form.reset();
+      fileLabel.textContent = "Arrastra tu archivo aquí o selecciónalo";
+      showStatus("Material publicado correctamente. Ya está disponible para la comunidad.");
+    } catch (error) {
+      showStatus(`No se pudo publicar el material: ${error.message}`, true);
+    } finally {
+      submit.disabled = false;
+      submit.innerHTML = '<i class="fa-solid fa-cloud-arrow-up mr-2"></i>Publicar material';
+    }
+  });
+</script>
 </body></html>
