@@ -42,6 +42,10 @@
       [data-design-id="docentes-intro-1978be"] form { height: auto; min-height: 54px; }
       [data-design-id="docentes-intro-1978be"] form input { min-width: 0; }
       [data-design-id="docentes-intro-1978be"] form button { padding-left: 1rem; padding-right: 1rem; }
+      .docentes-search-row { align-items: stretch; }
+      .docentes-filter-trigger { flex: 0 0 auto; }
+      .docentes-filter-trigger span { display: none; }
+      .docentes-filter-trigger { width: 3.5rem; padding-left: 0.75rem; padding-right: 0.75rem; }
       [data-design-id="docentes-catalog-f48e50"] { display: block; width: auto !important; margin-left: 1rem; margin-right: 1rem; padding-top: 2rem; padding-bottom: 2rem; }
       #docentes-resource-grid { grid-template-columns: 1fr; min-width: 0; }
       #docentes-pagination { flex-wrap: wrap; }
@@ -58,6 +62,9 @@
       [data-design-id="docentes-catalog-f48e50"] { width: auto !important; margin-left: 2rem; margin-right: 2rem; }
       [data-design-id="docentes-catalog-f48e50"] { display: block; width: auto !important; margin-left: 2rem; margin-right: 2rem; }
     }
+    .docentes-search-row { display: flex; gap: 0.75rem; align-items: center; }
+    .docentes-search-row form { flex: 1 1 auto; min-width: 0; }
+    .docentes-filter-trigger { white-space: nowrap; }
     .catalog-filter-backdrop {
       position: fixed;
       inset: 0;
@@ -123,20 +130,24 @@
             class="w-[92px] h-[92px] rounded-[20px] bg-white/10 text-[#63E0E1] flex items-center justify-center text-[38px]">
             <i class="fa-solid fa-chalkboard-user"></i></div>
         </div>
-        <form id="docentes-search-form" data-design-id="docentes-search-form-81b7d0"
-          class="mt-9 h-[58px] bg-white rounded-[12px] flex items-center p-1.5 shadow-lg">
-          <i class="fa-solid fa-magnifying-glass text-[#00A6B8] ml-4"></i><input id="docentes-search"
-            class="flex-1 h-full outline-none px-4 text-base text-[#18384E]"
-            placeholder="Buscar actividades, juegos, planeamientos o temas...">
-          <button data-design-id="docentes-search-btn-65a1d3" type="submit"
-            class="h-[44px] px-7 bg-[#00C0C7] text-white font-sans font-bold text-sm rounded-[9px]">Buscar</button>
-        </form>
+        <div class="docentes-search-row mt-9">
+          <form id="docentes-search-form" data-design-id="docentes-search-form-81b7d0"
+            class="h-[58px] bg-white rounded-[12px] flex items-center p-1.5 shadow-lg">
+            <i class="fa-solid fa-magnifying-glass text-[#00A6B8] ml-4"></i><input id="docentes-search"
+              class="flex-1 h-full outline-none px-4 text-base text-[#18384E]"
+              placeholder="Buscar actividades, juegos, planeamientos o temas...">
+            <button data-design-id="docentes-search-btn-65a1d3" type="submit"
+              class="h-[44px] px-7 bg-[#00C0C7] text-white font-sans font-bold text-sm rounded-[9px]">Buscar</button>
+          </form>
+          <button id="open-docentes-filters" type="button"
+            class="docentes-filter-trigger flex h-[58px] items-center gap-2 rounded-[12px] bg-[#0D2B45] px-5 font-sans text-sm font-bold text-white"
+            aria-label="Abrir filtros"><i class="fa-solid fa-sliders text-[#39C7D5]"></i><span>Filtros</span></button>
+        </div>
       </div>
     </section>
 
     <section data-design-id="docentes-catalog-f48e50"
-      class="w-[1240px] mx-auto py-[42px] grid grid-cols-[270px_1fr] gap-9">
-      <button id="open-docentes-filters" type="button" class="mb-5 flex h-11 items-center gap-2 rounded-[9px] bg-[#0D2B45] px-5 font-sans text-sm font-bold text-white"><i class="fa-solid fa-sliders text-[#39C7D5]"></i>Filtros</button>
+      class="w-[1240px] mx-auto py-[42px]">
       <div id="docentes-filter-backdrop" class="catalog-filter-backdrop" aria-hidden="true"></div>
       <aside id="docentes-filter-panel" data-design-id="filters-docentes-8fb743"
         class="catalog-filter-panel bg-white border border-[#D7E2E7] rounded-[16px] p-6" aria-label="Filtros de recursos docentes">
@@ -194,7 +205,7 @@
               <option value="title">A–Z</option>
             </select></label>
         </div>
-        <div id="docentes-resource-grid" class="grid grid-cols-2 gap-5">
+        <div id="docentes-resource-grid" class="grid grid-cols-1 gap-5">
           <article data-design-id="docente-card-1-2ba8f1"
             class="bg-white border border-[#D6E2E7] rounded-[16px] p-6 hover:border-[#8ED5DD]">
             <div class="flex justify-between"><span
@@ -411,7 +422,7 @@
       count.textContent = `${filtered.length} ${filtered.length === 1 ? "material" : "materiales"}`;
       summary.textContent = search.value.trim() ? `para “${search.value.trim()}”` : "disponibles";
       if (!visible.length) {
-        grid.innerHTML = '<p class="col-span-2 bg-white border border-[#D6E2E7] rounded-[16px] p-8 text-center text-[#607480]">No encontramos materiales con esos filtros.</p>';
+        grid.innerHTML = '<p class="col-span-1 bg-white border border-[#D6E2E7] rounded-[16px] p-8 text-center text-[#607480]">No encontramos materiales con esos filtros.</p>';
       } else {
         grid.innerHTML = visible.map(resource => `<article class="bg-white border border-[#D6E2E7] rounded-[16px] p-6 hover:border-[#8ED5DD]">
           <div class="flex justify-between"><span class="font-sans text-[11px] font-bold bg-[#DFF6F8] text-[#087F8C] px-3 py-1.5 rounded-full">${escapeHtml((resource.type || "RECURSO").toUpperCase())}</span><span class="text-xs text-[#7C8D97]"><i class="${resource.extension === "ggb" ? "fa-solid" : "fa-regular"} ${iconFor(resource.extension)} mr-1"></i>${escapeHtml((resource.extension || "").toUpperCase())}</span></div>
@@ -457,7 +468,7 @@
         render();
       } catch (error) {
         count.textContent = "No se pudieron cargar los materiales";
-        grid.innerHTML = `<p class="col-span-2 bg-white border border-[#D6E2E7] rounded-[16px] p-8 text-center text-[#C2413B]">Error al cargar la biblioteca: ${escapeHtml(error.message)}</p>`;
+        grid.innerHTML = `<p class="col-span-1 bg-white border border-[#D6E2E7] rounded-[16px] p-8 text-center text-[#C2413B]">Error al cargar la biblioteca: ${escapeHtml(error.message)}</p>`;
       }
     }
   </script>
