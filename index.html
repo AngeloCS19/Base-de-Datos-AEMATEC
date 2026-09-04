@@ -19,12 +19,13 @@
       body.w-\[1440px\] { width: 100% !important; overflow-x: hidden; }
       header > div, main > section > div, footer > div { width: auto !important; margin-left: 1rem; margin-right: 1rem; }
       header { height: auto !important; padding: 1rem 0; }
-      header > div { position: relative; flex-wrap: wrap; gap: 1rem; padding-left: 0.25rem; padding-right: 0.25rem; }
-      header > div > a { gap: 0.75rem; min-width: 0; }
-      header > div > a img { width: 105px; }
-      header > div > a > span { font-size: 0.9rem; }
-      #mobile-menu-toggle { display: flex; margin-left: auto; }
-      header nav { display: none !important; width: 100%; flex-direction: column; align-items: stretch; gap: 0.5rem !important; padding-top: 0.75rem; border-top: 1px solid #D8E3E9; }
+      header > div { position: relative; display: grid !important; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.75rem; padding-left: 0.25rem; padding-right: 0.25rem; }
+      header > div > a { display: contents; }
+      header > div > a img { grid-column: 1; width: 92px; }
+      header > div > a > div { display: none; }
+      header > div > a > span { grid-column: 2; min-width: 0; overflow: hidden; font-size: 0.82rem; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
+      #mobile-menu-toggle { display: flex; grid-column: 3; margin-left: 0; }
+      header nav { display: none !important; grid-column: 1 / -1; width: 100%; flex-direction: column; align-items: stretch; gap: 0.5rem !important; padding-top: 0.75rem; border-top: 1px solid #D8E3E9; }
       header nav.is-open { display: flex !important; }
       header nav a { width: 100%; padding: 0.7rem 0; font-size: 0.8rem; }
       header nav a.bg-\[\#0D2B45\] { justify-content: center; }
