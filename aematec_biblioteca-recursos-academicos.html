@@ -97,6 +97,12 @@
       legendButton.setAttribute("aria-expanded", String(!isOpen));
       legendIcon.className = `fa-solid ${isOpen ? "fa-chevron-right" : "fa-chevron-up"} ml-1 text-[9px]`;
     });
+    if (new URLSearchParams(window.location.search).get("showCourses") === "1") {
+      legend.classList.remove("hidden");
+      legendButton.setAttribute("aria-expanded", "true");
+      legendIcon.className = "fa-solid fa-chevron-up ml-1 text-[9px]";
+      window.setTimeout(() => legend.scrollIntoView({ behavior: "smooth", block: "start" }), 250);
+    }
     if (config?.projectId && config.projectId !== "REEMPLAZAR") {
       try {
         const snapshot = await getDocs(query(collection(getFirestore(initializeApp(config)), "resources"), where("published", "==", true)));
