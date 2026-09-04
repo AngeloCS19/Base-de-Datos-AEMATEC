@@ -5,7 +5,10 @@
   "firestore": {
     "rules": "firestore.rules"
   },
-  "storage": {
-    "rules": "storage.rules"
-  }
+  "storage": [
+    {
+      "bucket": "biblioteca-aematec.firebasestorage.app",
+      "rules": "storage.rules"
+    }
+  ]
 }
