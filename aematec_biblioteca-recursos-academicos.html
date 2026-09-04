@@ -19,7 +19,7 @@
       body { width: 100% !important; max-width: 100%; overflow-x: hidden; }
       [class~="w-[1240px]"] { width: auto !important; max-width: none; }
       html, body { max-width: 100%; }
-      header > div, main > section > div, footer > div { width: calc(100% - 2rem) !important; margin-left: auto; margin-right: auto; }
+      header > div, main > section > div:not(.catalog-filter-backdrop), footer > div { width: calc(100% - 2rem) !important; margin-left: auto; margin-right: auto; }
       header { height: auto !important; padding: 1rem 0; }
       header > div { display: grid !important; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.75rem; }
       header > div > a { display: contents; }
@@ -30,7 +30,7 @@
       header nav { display: none !important; grid-column: 1 / -1; width: 100%; flex-direction: column; align-items: stretch; gap: 0.5rem !important; padding-top: 0.75rem; border-top: 1px solid #D8E3E9; }
       header nav.is-open { display: flex !important; }
       header nav a { width: 100%; padding: 0.7rem 0; font-size: 0.8rem; }
-      [data-design-id="academicos-intro-e4b790"] > div { width: auto !important; margin-left: 1rem; margin-right: 1rem; padding-top: 2.5rem; padding-bottom: 2rem; }
+      [data-design-id="academicos-intro-e4b790"] > div { width: calc(100% - 2rem) !important; margin-left: auto; margin-right: auto; padding-top: 2.5rem; padding-bottom: 2rem; }
       [data-design-id="academicos-intro-e4b790"] h1 { font-size: 2.1rem; }
       [data-design-id="academicos-intro-e4b790"] form { height: auto; min-height: 54px; }
       [data-design-id="academicos-intro-e4b790"] form input { min-width: 0; }
@@ -49,7 +49,7 @@
       body { width: 100% !important; max-width: 100%; overflow-x: hidden; }
       [class~="w-[1240px]"] { width: auto !important; max-width: none; }
       html, body { max-width: 100%; }
-      header > div, main > section > div, footer > div { width: calc(100% - 4rem) !important; margin-left: auto; margin-right: auto; }
+      header > div, main > section > div:not(.catalog-filter-backdrop), footer > div { width: calc(100% - 4rem) !important; margin-left: auto; margin-right: auto; }
       [data-design-id="academicos-catalog-45a8fc"] { display: block; width: calc(100% - 4rem) !important; margin-left: auto; margin-right: auto; }
     }
     .academicos-search-row { display: flex; gap: 0.75rem; align-items: center; }
