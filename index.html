@@ -19,11 +19,17 @@
       body.w-\[1440px\] { width: 100% !important; overflow-x: hidden; }
       header > div, main > section > div, footer > div { width: auto !important; margin-left: 1rem; margin-right: 1rem; }
       header { height: auto !important; padding: 1rem 0; }
-      header nav { flex-wrap: wrap; justify-content: center; gap: 0.75rem 1rem !important; }
-      header nav a { font-size: 0.75rem; }
-      header > div > a { gap: 0.75rem; }
+      header > div { position: relative; flex-wrap: wrap; gap: 1rem; }
+      header > div > a { gap: 0.75rem; min-width: 0; }
       header > div > a img { width: 105px; }
       header > div > a > span { font-size: 0.9rem; }
+      #mobile-menu-toggle { display: flex; margin-left: auto; }
+      header nav { display: none; width: 100%; flex-direction: column; align-items: stretch; gap: 0.5rem !important; padding-top: 0.75rem; border-top: 1px solid #D8E3E9; }
+      header nav.is-open { display: flex; }
+      header nav a { width: 100%; padding: 0.7rem 0; font-size: 0.8rem; }
+      header nav a.bg-\[\#0D2B45\] { justify-content: center; }
+      main > section:not([data-design-id="hero-section-16a5bf"]):not(#global-search-results) { width: 100% !important; }
+      main > section:not([data-design-id="hero-section-16a5bf"]):not(#global-search-results) > div { width: auto !important; margin-left: 1rem; margin-right: 1rem; }
       [data-design-id="hero-section-16a5bf"] > div { min-height: auto; padding: 3rem 0 2.5rem; }
       [data-design-id="hero-section-16a5bf"] h1 { font-size: clamp(2.1rem, 9vw, 3.2rem); }
       [data-design-id="hero-section-16a5bf"] p { font-size: 1rem; line-height: 1.7; }
@@ -34,10 +40,12 @@
       #global-search-results article { align-items: flex-start; flex-wrap: wrap; }
       #global-search-results article > div:nth-child(2) { min-width: calc(100% - 4.5rem); }
       #global-search-results article > button { margin-left: auto; }
-      [data-design-id="quick-access-section-0d64a7"], main > section.w-\[1240px\] { width: auto !important; margin-left: 1rem; margin-right: 1rem; padding-top: 2.5rem; padding-bottom: 2.5rem; }
+      [data-design-id="quick-access-section-0d64a7"], main > section.w-\[1240px\] { padding-top: 2.5rem; padding-bottom: 2.5rem; }
       [data-design-id="quick-access-section-0d64a7"] .grid, main > section.w-\[1240px\] .grid { grid-template-columns: 1fr; }
       [data-design-id="quick-card-docentes-17fd90"], [data-design-id="quick-card-academicos-b3a4c8"] { padding: 1.25rem; gap: 1rem; }
+      [data-design-id="quick-card-docentes-17fd90"] > div:last-child, [data-design-id="quick-card-academicos-b3a4c8"] > div:last-child { min-width: 0; }
       [data-design-id="quick-card-docentes-17fd90"] h3, [data-design-id="quick-card-academicos-b3a4c8"] h3 { font-size: 1.15rem; }
+      [data-design-id="quick-card-docentes-17fd90"] > div:last-child > div:last-child, [data-design-id="quick-card-academicos-b3a4c8"] > div:last-child > div:last-child { flex-wrap: wrap; }
       #recent-materials-grid { grid-template-columns: 1fr; }
       #recent-materials-grid [class*="col-span-3"] { grid-column: auto; }
       footer > div { flex-direction: column; align-items: flex-start; gap: 1rem; }
@@ -64,7 +72,10 @@
         <div class="h-9 w-px bg-[#D8E3E9]"></div>
         <span class="font-sans font-bold text-[18px] tracking-[-0.02em]">Biblioteca AEMATEC</span>
       </a>
-      <nav data-design-id="nav-primary-bf42d1" class="flex items-center gap-8 font-sans text-[14px] font-semibold">
+      <button id="mobile-menu-toggle" type="button" class="hidden h-11 w-11 items-center justify-center rounded-[10px] border border-[#BFD0D8] text-[#0D2B45]" aria-expanded="false" aria-controls="primary-navigation" aria-label="Abrir menú">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <nav id="primary-navigation" data-design-id="nav-primary-bf42d1" class="flex items-center gap-8 font-sans text-[14px] font-semibold">
         <a href="index.html" class="text-[#00A6B8] border-b-2 border-[#00B5C8] py-2">Inicio</a>
         <a href="aematec_biblioteca-recursos-docentes.html" class="text-[#405769] hover:text-[#00A6B8]">Recursos docentes</a>
         <a href="aematec_biblioteca-recursos-academicos.html" class="text-[#405769] hover:text-[#00A6B8]">Recursos académicos</a>
@@ -311,11 +322,19 @@
     const globalSearchTitle = document.querySelector("#global-search-title");
     const globalSearchStatus = document.querySelector("#global-search-status");
     const globalSearchList = document.querySelector("#global-search-list");
+    const mobileMenuToggle = document.querySelector("#mobile-menu-toggle");
+    const primaryNavigation = document.querySelector("#primary-navigation");
     const globalModal = document.querySelector("#global-resource-modal");
     const globalModalClose = document.querySelector("#global-modal-close");
     let publishedResources = [];
     let resourcesLoaded = false;
     let pendingGlobalSearch = "";
+    mobileMenuToggle.addEventListener("click", () => {
+      const isOpen = primaryNavigation.classList.toggle("is-open");
+      mobileMenuToggle.setAttribute("aria-expanded", String(isOpen));
+      mobileMenuToggle.setAttribute("aria-label", isOpen ? "Cerrar menú" : "Abrir menú");
+      mobileMenuToggle.innerHTML = `<i class="fa-solid ${isOpen ? "fa-xmark" : "fa-bars"}"></i>`;
+    });
     document.querySelector("#all-courses-link").addEventListener("click", event => {
       event.preventDefault();
       const destination = event.currentTarget.href;
