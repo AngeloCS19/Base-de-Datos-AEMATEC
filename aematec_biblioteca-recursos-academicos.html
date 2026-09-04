@@ -16,7 +16,7 @@
   <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <style>
     @media (max-width: 767px) {
-      body[class~="w-[1440px]"] { width: 100% !important; max-width: 100%; overflow-x: hidden; }
+      body { width: 100% !important; max-width: 100%; overflow-x: hidden; }
       [class~="w-[1240px]"] { width: auto !important; max-width: none; }
       html, body { max-width: 100%; }
       header > div, main > section > div, footer > div { width: auto !important; margin-left: 1rem; margin-right: 1rem; }
@@ -30,26 +30,49 @@
       header nav { display: none !important; grid-column: 1 / -1; width: 100%; flex-direction: column; align-items: stretch; gap: 0.5rem !important; padding-top: 0.75rem; border-top: 1px solid #D8E3E9; }
       header nav.is-open { display: flex !important; }
       header nav a { width: 100%; padding: 0.7rem 0; font-size: 0.8rem; }
-      [data-design-id="academicos-intro-e4b790"] > div { padding-top: 2.5rem; padding-bottom: 2rem; }
+      [data-design-id="academicos-intro-e4b790"] > div { width: auto !important; margin-left: 1rem; margin-right: 1rem; padding-top: 2.5rem; padding-bottom: 2rem; }
       [data-design-id="academicos-intro-e4b790"] h1 { font-size: 2.1rem; }
       [data-design-id="academicos-intro-e4b790"] form { height: auto; min-height: 54px; }
       [data-design-id="academicos-intro-e4b790"] form input { min-width: 0; }
       [data-design-id="academicos-intro-e4b790"] form button { padding-left: 1rem; padding-right: 1rem; }
       [data-design-id="course-shortcuts-f2a711"] > div { padding-top: 1rem; padding-bottom: 1rem; }
       [data-design-id="academicos-catalog-45a8fc"] { display: block; width: auto !important; margin-left: 1rem; margin-right: 1rem; padding-top: 2rem; padding-bottom: 2rem; }
-      [data-design-id="filters-academicos-41df88"] { margin-bottom: 2rem; }
       #academic-resource-list article { align-items: flex-start; flex-wrap: wrap; }
       #academic-resource-list article > div:nth-child(2) { min-width: calc(100% - 5rem); }
       #academic-resource-list article > div:last-child { width: 100%; justify-content: flex-end; }
       #course-legend-list { grid-template-columns: 1fr; }
     }
     @media (min-width: 768px) and (max-width: 1279px) {
-      body[class~="w-[1440px]"] { width: 100% !important; max-width: 100%; overflow-x: hidden; }
+      body { width: 100% !important; max-width: 100%; overflow-x: hidden; }
       [class~="w-[1240px]"] { width: auto !important; max-width: none; }
       html, body { max-width: 100%; }
       header > div, main > section > div, footer > div { width: auto !important; margin-left: 2rem; margin-right: 2rem; }
       [data-design-id="academicos-catalog-45a8fc"] { width: auto !important; margin-left: 2rem; margin-right: 2rem; }
-      [data-design-id="academicos-catalog-45a8fc"] { grid-template-columns: 240px minmax(0, 1fr); }
+      [data-design-id="academicos-catalog-45a8fc"] { display: block; width: auto !important; margin-left: 2rem; margin-right: 2rem; }
+    }
+    .catalog-filter-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      display: none;
+      background: rgba(13, 43, 69, 0.48);
+      backdrop-filter: blur(6px);
+    }
+    .catalog-filter-backdrop.is-open { display: block; }
+    .catalog-filter-panel {
+      position: fixed;
+      inset: 1.5rem auto 1.5rem 50%;
+      z-index: 50;
+      display: none;
+      width: min(430px, calc(100vw - 2rem));
+      max-height: calc(100vh - 3rem);
+      overflow-y: auto;
+      transform: translateX(-50%);
+      box-shadow: 0 24px 70px rgba(13, 43, 69, 0.28);
+    }
+    .catalog-filter-panel.is-open { display: block; }
+    @media (max-width: 767px) {
+      .catalog-filter-panel { inset: 1rem auto 1rem 50%; max-height: calc(100vh - 2rem); }
     }
   </style>
   <title>Recursos académicos — Biblioteca AEMATEC</title>
@@ -61,8 +84,8 @@
     <section data-design-id="course-shortcuts-f2a711" class="bg-white border-b border-[#DCE6EA]"><div class="w-[1240px] mx-auto flex flex-wrap items-center gap-3 py-5"><span class="font-sans text-xs font-bold uppercase tracking-[0.12em] text-[#697D89] mr-2">Cursos frecuentes</span><a data-course="MA1403" title="Matemática Discreta" href="#" class="font-sans text-xs font-bold bg-[#0D2B45] text-white px-4 py-2 rounded-full">MA1403</a><a data-course="EM1605" title="Fundamentos de la matemática I" href="#" class="font-sans text-xs font-bold bg-[#EDF3F5] px-4 py-2 rounded-full">EM1605</a><a data-course="EM2603" title="Cálculo y Análisis I" href="#" class="font-sans text-xs font-bold bg-[#EDF3F5] px-4 py-2 rounded-full">EM2603</a><a data-course="EM2604" title="Geometría I" href="#" class="font-sans text-xs font-bold bg-[#EDF3F5] px-4 py-2 rounded-full">EM2604</a><a data-course="EM1608" title="Didáctica del Álgebra y Funciones" href="#" class="font-sans text-xs font-bold bg-[#EDF3F5] px-4 py-2 rounded-full">EM1608</a><button id="show-course-legend" type="button" aria-expanded="false" class="font-sans text-xs font-bold text-[#008C9A] ml-2">Ver leyenda de cursos <i id="course-legend-icon" class="fa-solid fa-chevron-right ml-1 text-[9px]"></i></button></div></section>
     <section id="course-legend" class="hidden bg-[#F4F8FA]"><div class="mx-auto max-w-[1240px] px-6 py-6"><h2 class="font-sans text-sm font-bold">Cursos de la carrera y de servicio</h2><div id="course-legend-list" class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3"></div></div></section>
     <section data-design-id="academicos-catalog-45a8fc" class="w-[1240px] mx-auto py-[42px] grid grid-cols-[270px_1fr] gap-9">
-      <aside data-design-id="filters-academicos-41df88" class="self-start bg-white border border-[#D7E2E7] rounded-[16px] p-6"><div class="flex justify-between items-center"><h2 class="font-sans font-bold text-lg"><i class="fa-solid fa-sliders text-[#00A6B8] mr-2"></i>Filtros</h2><a id="clear-academic-filters" href="#" class="font-sans text-[11px] font-bold text-[#008F9E]">Limpiar</a></div><div class="mt-7"><p class="font-sans text-xs font-bold uppercase tracking-[0.12em] text-[#556B78]">Curso</p><div class="mt-4 relative"><i class="fa-solid fa-magnifying-glass absolute left-3 top-3.5 text-xs text-[#80939D]"></i><input id="course-search" class="w-full h-10 pl-9 pr-3 border border-[#CBD9DF] rounded-[8px] text-sm" placeholder="Código o nombre del curso"></div><div class="mt-3 space-y-3 text-[15px] text-[#405968]"><label class="flex gap-3 items-center"><input data-course-filter="MA1403" type="checkbox" class="accent-[#00AFC1] w-4 h-4"> MA1403 <span class="ml-auto text-xs text-[#82939D]">Matemática Discreta</span></label><label class="flex gap-3 items-center"><input data-course-filter="EM1605" type="checkbox" class="accent-[#00AFC1] w-4 h-4"> EM1605 <span class="ml-auto text-xs text-[#82939D]">Fundamentos I</span></label><label class="flex gap-3 items-center"><input data-course-filter="EM2603" type="checkbox" class="accent-[#00AFC1] w-4 h-4"> EM2603 <span class="ml-auto text-xs text-[#82939D]">Cálculo I</span></label></div></div><div class="mt-7 pt-6 border-t border-[#E2E9EC]"><p class="font-sans text-xs font-bold uppercase tracking-[0.12em] text-[#556B78]">Tipo</p><div class="mt-4 space-y-3 text-[15px] text-[#405968]"><label class="flex gap-3"><input data-type-filter="Examen" type="checkbox" class="accent-[#00AFC1]"> Examen</label><label class="flex gap-3"><input data-type-filter="Apuntes" type="checkbox" class="accent-[#00AFC1]"> Apuntes</label><label class="flex gap-3"><input data-type-filter="Solución" type="checkbox" class="accent-[#00AFC1]"> Solución</label><label class="flex gap-3"><input data-type-filter="Práctica" type="checkbox" class="accent-[#00AFC1]"> Práctica</label></div></div><div class="mt-7 pt-6 border-t border-[#E2E9EC]"><p class="font-sans text-xs font-bold uppercase tracking-[0.12em] text-[#556B78]">Periodo</p><select id="period-filter" class="mt-4 w-full h-11 border border-[#CBD9DF] rounded-[9px] px-3 bg-white text-sm"><option value="">Todos los periodos</option><option>I Semestre 2026</option><option>II Semestre 2025</option><option>I Semestre 2025</option></select></div><button id="apply-academic-filters" data-design-id="apply-filters-acad-b5d149" type="button" class="w-full h-11 bg-[#0D2B45] text-white font-sans font-bold text-sm rounded-[9px] mt-7">Aplicar filtros</button></aside>
-      <div><div class="flex justify-between items-center mb-5"><div><span id="academic-count" class="font-sans font-bold text-lg">Cargando materiales...</span><span id="academic-summary" class="text-[#6D808B] ml-2"></span></div><label class="font-sans text-xs font-semibold text-[#5D7280]">Ordenar por <select id="academic-sort" class="ml-2 h-10 border border-[#CBD9DF] bg-white rounded-[8px] px-3"><option value="recent">Más recientes</option><option value="downloads">Más descargados</option><option value="title">A–Z</option></select></label></div><div id="academic-resource-list" class="space-y-4">
+      <button id="open-academic-filters" type="button" class="mb-5 flex h-11 items-center gap-2 rounded-[9px] bg-[#0D2B45] px-5 font-sans text-sm font-bold text-white"><i class="fa-solid fa-sliders text-[#39C7D5]"></i>Filtros</button><div id="academic-filter-backdrop" class="catalog-filter-backdrop" aria-hidden="true"></div><aside id="academic-filter-panel" data-design-id="filters-academicos-41df88" class="catalog-filter-panel bg-white border border-[#D7E2E7] rounded-[16px] p-6" aria-label="Filtros de recursos académicos"><div class="flex justify-between items-center"><h2 class="font-sans font-bold text-lg"><i class="fa-solid fa-sliders text-[#00A6B8] mr-2"></i>Filtros</h2><div class="flex items-center gap-4"><a id="clear-academic-filters" href="#" class="font-sans text-[11px] font-bold text-[#008F9E]">Limpiar</a><button id="close-academic-filters" type="button" class="flex h-9 w-9 items-center justify-center rounded-full bg-[#F0F4F6] text-[#5F7480]" aria-label="Cerrar filtros"><i class="fa-solid fa-xmark"></i></button></div></div><div class="mt-7"><p class="font-sans text-xs font-bold uppercase tracking-[0.12em] text-[#556B78]">Curso</p><div class="mt-4 relative"><i class="fa-solid fa-magnifying-glass absolute left-3 top-3.5 text-xs text-[#80939D]"></i><input id="course-search" class="w-full h-10 pl-9 pr-3 border border-[#CBD9DF] rounded-[8px] text-sm" placeholder="Código o nombre del curso"></div><div class="mt-3 space-y-3 text-[15px] text-[#405968]"><label class="flex gap-3 items-center"><input data-course-filter="MA1403" type="checkbox" class="accent-[#00AFC1] w-4 h-4"> MA1403 <span class="ml-auto text-xs text-[#82939D]">Matemática Discreta</span></label><label class="flex gap-3 items-center"><input data-course-filter="EM1605" type="checkbox" class="accent-[#00AFC1] w-4 h-4"> EM1605 <span class="ml-auto text-xs text-[#82939D]">Fundamentos I</span></label><label class="flex gap-3 items-center"><input data-course-filter="EM2603" type="checkbox" class="accent-[#00AFC1] w-4 h-4"> EM2603 <span class="ml-auto text-xs text-[#82939D]">Cálculo I</span></label></div></div><div class="mt-7 pt-6 border-t border-[#E2E9EC]"><p class="font-sans text-xs font-bold uppercase tracking-[0.12em] text-[#556B78]">Tipo</p><div class="mt-4 space-y-3 text-[15px] text-[#405968]"><label class="flex gap-3"><input data-type-filter="Examen" type="checkbox" class="accent-[#00AFC1]"> Examen</label><label class="flex gap-3"><input data-type-filter="Apuntes" type="checkbox" class="accent-[#00AFC1]"> Apuntes</label><label class="flex gap-3"><input data-type-filter="Solución" type="checkbox" class="accent-[#00AFC1]"> Solución</label><label class="flex gap-3"><input data-type-filter="Práctica" type="checkbox" class="accent-[#00AFC1]"> Práctica</label></div></div><div class="mt-7 pt-6 border-t border-[#E2E9EC]"><p class="font-sans text-xs font-bold uppercase tracking-[0.12em] text-[#556B78]">Periodo</p><select id="period-filter" class="mt-4 w-full h-11 border border-[#CBD9DF] rounded-[9px] px-3 bg-white text-sm"><option value="">Todos los periodos</option><option>I Semestre 2026</option><option>II Semestre 2025</option><option>I Semestre 2025</option></select></div><button id="apply-academic-filters" data-design-id="apply-filters-acad-b5d149" type="button" class="w-full h-11 bg-[#0D2B45] text-white font-sans font-bold text-sm rounded-[9px] mt-7">Aplicar filtros</button></aside>
+      <div class="min-w-0"><div class="flex justify-between items-center mb-5"><div><span id="academic-count" class="font-sans font-bold text-lg">Cargando materiales...</span><span id="academic-summary" class="text-[#6D808B] ml-2"></span></div><label class="font-sans text-xs font-semibold text-[#5D7280]">Ordenar por <select id="academic-sort" class="ml-2 h-10 border border-[#CBD9DF] bg-white rounded-[8px] px-3"><option value="recent">Más recientes</option><option value="downloads">Más descargados</option><option value="title">A–Z</option></select></label></div><div id="academic-resource-list" class="space-y-4">
         <article data-design-id="academic-card-1-c8ef02" class="bg-white border border-[#D6E2E7] rounded-[15px] p-5 flex items-center gap-5"><div class="w-[62px] h-[72px] rounded-[11px] bg-[#EDF2FA] text-[#486398] flex items-center justify-center text-2xl"><i class="fa-regular fa-file-lines"></i></div><div class="flex-1"><div class="flex items-center gap-3"><span class="font-sans text-[10px] font-bold bg-[#E9EEF9] text-[#3B568D] px-2.5 py-1 rounded-full">APUNTES</span><span class="font-sans text-[11px] font-bold text-[#008F9E]">MA1001</span></div><h3 class="font-sans font-bold text-[18px] mt-2">Resumen de Matemática General</h3><p class="text-sm text-[#687B86] mt-1">Números reales, ecuaciones, desigualdades y funciones elementales.</p><p class="text-xs text-[#7A8C96] mt-2">Por <strong class="text-[#4A606D]">Valeria Jiménez</strong> · Actualizado hace 4 días</p></div><div class="flex gap-2"><button data-design-id="view-acad-1-737bd2" type="button" class="w-11 h-11 border border-[#A9BEC7] rounded-[8px] text-[#38566A]" aria-label="Ver"><i class="fa-regular fa-eye"></i></button><button data-design-id="download-acad-1-b83c42" type="button" class="h-11 px-5 bg-[#00AFC1] text-white rounded-[8px] font-sans font-bold text-xs"><i class="fa-solid fa-download mr-2"></i>Descargar</button></div></article>
         <article data-design-id="academic-card-2-a4f35b" class="bg-white border border-[#D6E2E7] rounded-[15px] p-5 flex items-center gap-5"><div class="w-[62px] h-[72px] rounded-[11px] bg-[#FCEBE9] text-[#B75449] flex items-center justify-center text-2xl"><i class="fa-regular fa-file-pdf"></i></div><div class="flex-1"><div class="flex items-center gap-3"><span class="font-sans text-[10px] font-bold bg-[#FCEBE9] text-[#A8463D] px-2.5 py-1 rounded-full">EXAMEN</span><span class="font-sans text-[11px] font-bold text-[#008F9E]">MA1001</span></div><h3 class="font-sans font-bold text-[18px] mt-2">Primer examen parcial — I Semestre 2025</h3><p class="text-sm text-[#687B86] mt-1">Evaluación anterior para práctica personal. Versión sin respuestas.</p><p class="text-xs text-[#7A8C96] mt-2">Fuente: <strong class="text-[#4A606D]">Estudiantes MATEC</strong> · 12 páginas</p></div><div class="flex gap-2"><button data-design-id="view-acad-2-c340da" type="button" class="w-11 h-11 border border-[#A9BEC7] rounded-[8px] text-[#38566A]" aria-label="Ver"><i class="fa-regular fa-eye"></i></button><button data-design-id="download-acad-2-c1e8af" type="button" class="h-11 px-5 bg-[#00AFC1] text-white rounded-[8px] font-sans font-bold text-xs"><i class="fa-solid fa-download mr-2"></i>Descargar</button></div></article>
         <article data-design-id="academic-card-3-7694bc" class="bg-white border border-[#D6E2E7] rounded-[15px] p-5 flex items-center gap-5"><div class="w-[62px] h-[72px] rounded-[11px] bg-[#E6F3EA] text-[#43805A] flex items-center justify-center text-2xl"><i class="fa-solid fa-check-double"></i></div><div class="flex-1"><div class="flex items-center gap-3"><span class="font-sans text-[10px] font-bold bg-[#E5F1E8] text-[#3A7650] px-2.5 py-1 rounded-full">SOLUCIÓN</span><span class="font-sans text-[11px] font-bold text-[#008F9E]">MA1001</span></div><h3 class="font-sans font-bold text-[18px] mt-2">Solución comentada — Examen final 2024</h3><p class="text-sm text-[#687B86] mt-1">Procedimientos detallados y observaciones sobre errores frecuentes.</p><p class="text-xs text-[#7A8C96] mt-2">Por <strong class="text-[#4A606D]">Tutorías AEMATEC</strong> · 18 páginas</p></div><div class="flex gap-2"><button data-design-id="view-acad-3-b202f8" type="button" class="w-11 h-11 border border-[#A9BEC7] rounded-[8px] text-[#38566A]" aria-label="Ver"><i class="fa-regular fa-eye"></i></button><button data-design-id="download-acad-3-969753" type="button" class="h-11 px-5 bg-[#00AFC1] text-white rounded-[8px] font-sans font-bold text-xs"><i class="fa-solid fa-download mr-2"></i>Descargar</button></div></article>
@@ -82,6 +105,22 @@
       mobileMenuToggle.setAttribute("aria-label", isOpen ? "Cerrar menú" : "Abrir menú");
       mobileMenuToggle.innerHTML = `<i class="fa-solid ${isOpen ? "fa-xmark" : "fa-bars"}"></i>`;
     });
+    const filterPanel = document.querySelector("#academic-filter-panel");
+    const filterBackdrop = document.querySelector("#academic-filter-backdrop");
+    const openFilters = () => {
+      filterPanel.classList.add("is-open");
+      filterBackdrop.classList.add("is-open");
+      document.body.classList.add("overflow-hidden");
+      document.querySelector("#close-academic-filters").focus();
+    };
+    const closeFilters = () => {
+      filterPanel.classList.remove("is-open");
+      filterBackdrop.classList.remove("is-open");
+      document.body.classList.remove("overflow-hidden");
+    };
+    document.querySelector("#open-academic-filters").addEventListener("click", openFilters);
+    document.querySelector("#close-academic-filters").addEventListener("click", closeFilters);
+    filterBackdrop.addEventListener("click", closeFilters);
     const courseNames = {
       EM1401:"Introducción a la pedagogía", EM1404:"Teorías Psicopedagógicas del aprendizaje", EM1605:"Fundamentos de la matemática I",
       MA1403:"Matemática Discreta", EM1600:"Tecnologías Digitales aplicadas a la matemática educativa I", EM1606:"Fundamentos de la matemática II",
@@ -128,10 +167,11 @@
         <div class="flex gap-2"><a href="${escapeHtml(resource.fileUrl)}" target="_blank" rel="noopener" class="flex h-11 w-11 items-center justify-center rounded-[8px] border border-[#A9BEC7] text-[#38566A]" aria-label="Ver archivo"><i class="fa-regular fa-eye"></i></a><a href="${escapeHtml(resource.fileUrl)}" download class="h-11 rounded-[8px] bg-[#00AFC1] px-5 font-sans text-xs font-bold text-white flex items-center"><i class="fa-solid fa-download mr-2"></i>Descargar</a></div></article>`).join("") : '<p class="rounded-[15px] border border-[#D6E2E7] bg-white p-8 text-center text-[#607480]">No encontramos materiales con esos filtros.</p>';
     }
     document.querySelector('form[data-design-id="academicos-search-form-c5e77a"]').addEventListener("submit", event => { event.preventDefault(); render(); });
-    document.querySelector("#apply-academic-filters").addEventListener("click", render);
-    document.querySelector("#clear-academic-filters").addEventListener("click", event => { event.preventDefault(); search.value = ""; document.querySelectorAll("[data-type-filter], [data-course-filter]").forEach(input => input.checked = false); document.querySelector("#period-filter").value = ""; render(); });
+    document.querySelector("#apply-academic-filters").addEventListener("click", () => { render(); closeFilters(); });
+    document.querySelector("#clear-academic-filters").addEventListener("click", event => { event.preventDefault(); search.value = ""; document.querySelectorAll("[data-type-filter], [data-course-filter]").forEach(input => input.checked = false); document.querySelector("#period-filter").value = ""; render(); closeFilters(); });
     sort.addEventListener("change", render);
     document.querySelectorAll("[data-course]").forEach(button => button.addEventListener("click", event => { event.preventDefault(); search.value = button.dataset.course; render(); }));
+    document.addEventListener("keydown", event => { if (event.key === "Escape" && filterPanel.classList.contains("is-open")) closeFilters(); });
     const legend = document.querySelector("#course-legend");
     const legendButton = document.querySelector("#show-course-legend");
     const legendIcon = document.querySelector("#course-legend-icon");
