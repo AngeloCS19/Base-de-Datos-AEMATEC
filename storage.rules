@@ -1,10 +1,11 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    match /recursos/docentes/{fileName} {
+    match /recursos/{section}/{fileName} {
       allow read: if true;
-      allow write: if request.resource.size <= 25 * 1024 * 1024
-        && fileName.matches('^[a-f0-9-]+\\.(pdf|docx|pptx|xlsx|zip|ggb)$')
+      allow write: if section in ['docentes', 'academico']
+        && request.resource.size <= 25 * 1024 * 1024
+        && fileName.matches('^[a-f0-9-]+(-explicacion)?\\.(pdf|docx|pptx|xlsx|zip|ggb)$')
         && request.resource.contentType in [
           'application/pdf',
           'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
