@@ -155,12 +155,16 @@
       opacity: 1;
       transform: translate(-50%, 0) scale(1);
     }
+    .hero-video {
+      object-position: center;
+    }
     @media (prefers-reduced-motion: reduce) {
       header nav a,
       header > div > a,
       .course-shortcut,
       .course-shortcut::before,
       .course-shortcut::after { transition: none; }
+      .hero-video { display: none; }
     }
   </style>
   <title>Biblioteca AEMATEC</title>
@@ -195,30 +199,26 @@
 
   <main data-design-id="main-home-3e718d">
     <section data-design-id="hero-section-16a5bf" class="bg-[#EAF5F7] border-b border-[#D5E5EA]">
-      <div class="w-[1240px] mx-auto min-h-[500px] pt-[76px] pb-[64px] text-center relative overflow-hidden">
-        <div aria-hidden="true" class="hero-equation absolute text-[#0D2B45]/[0.16] font-serif pointer-events-none">\( \displaystyle a^2+b^2=c^2 \)</div>
-        <svg aria-hidden="true" class="hero-geometry absolute w-[360px] h-[250px] text-[#0D2B45]/[0.16] pointer-events-none" viewBox="0 0 360 250" fill="none">
-          <circle cx="126" cy="154" r="92" stroke="currentColor" stroke-width="2"/>
-          <path d="M34 154H218M126 62V246M44 236L218 62" stroke="currentColor" stroke-width="2"/>
-          <path d="M24 216L210 30M28 228L222 34" stroke="#00A6B8" stroke-width="3"/>
-          <path d="M42 228L66 204M66 228L42 204M198 52L222 28M222 52L198 28" stroke="#00A6B8" stroke-width="2"/>
-          <circle cx="126" cy="154" r="7" fill="#00A6B8"/>
-          <path d="M222 34L246 10M222 34L244 40" stroke="#0D2B45" stroke-width="3" stroke-linecap="round"/>
-          <path d="M253 8H348M253 22H348M253 8V22M348 8V22M270 8V22M287 8V22M304 8V22M321 8V22M338 8V22" stroke="currentColor" stroke-width="2"/>
-        </svg>
-        <h1 class="font-sans text-[54px] leading-[1.08] tracking-[-0.04em] font-bold mt-0">Conocimiento que se
-          comparte,<br><span class="text-[#00A6B8]">aprendizaje que crece.</span></h1>
-        <p class="mt-5 text-[19px] leading-8 text-[#526574] max-w-[730px] mx-auto">Materiales creados y recopilados por
-          la comunidad de Enseñanza de la Matemática con Entornos Tecnológicos del TEC.</p>
-        <form id="global-search-form" data-design-id="search-form-75e90c"
-          class="mt-9 mx-auto w-[800px] h-[68px] bg-white border-2 border-[#B8D3DC] rounded-[16px] shadow-[0_12px_35px_rgba(13,43,69,0.10)] flex items-center p-2">
-          <i class="fa-solid fa-magnifying-glass text-[#00A6B8] text-xl ml-4"></i>
-          <input aria-label="Buscar materiales"
-            class="flex-1 h-full px-4 outline-none text-[17px] text-[#233F53] placeholder:text-[#7C909D]"
-            placeholder="Buscar por tema, curso, tipo de recurso...">
-          <button data-design-id="search-submit-btn-9e53b0" type="submit"
-            class="h-[48px] px-7 rounded-[10px] bg-[#00AFC1] text-white font-sans font-bold text-sm hover:bg-[#009AAA]">Buscar</button>
-        </form>
+      <div class="relative isolate overflow-hidden">
+        <video class="hero-video absolute inset-0 h-full w-full object-cover" autoplay muted loop playsinline aria-hidden="true">
+          <source src="assets/hero-aematec.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-[#EAF5F7]/25 pointer-events-none"></div>
+        <div class="relative z-10 w-[1240px] mx-auto min-h-[500px] pt-[76px] pb-[64px] text-center">
+          <h1 class="font-sans text-[54px] leading-[1.08] tracking-[-0.04em] font-bold mt-0">Conocimiento que se
+            comparte,<br><span class="text-[#00A6B8]">aprendizaje que crece.</span></h1>
+          <p class="mt-5 text-[19px] leading-8 text-[#526574] max-w-[730px] mx-auto">Materiales creados y recopilados por
+            la comunidad de Enseñanza de la Matemática con Entornos Tecnológicos del TEC.</p>
+          <form id="global-search-form" data-design-id="search-form-75e90c"
+            class="mt-9 mx-auto w-[800px] h-[68px] bg-white border-2 border-[#B8D3DC] rounded-[16px] shadow-[0_12px_35px_rgba(13,43,69,0.10)] flex items-center p-2">
+            <i class="fa-solid fa-magnifying-glass text-[#00A6B8] text-xl ml-4"></i>
+            <input aria-label="Buscar materiales"
+              class="flex-1 h-full px-4 outline-none text-[17px] text-[#233F53] placeholder:text-[#7C909D]"
+              placeholder="Buscar por tema, curso, tipo de recurso...">
+            <button data-design-id="search-submit-btn-9e53b0" type="submit"
+              class="h-[48px] px-7 rounded-[10px] bg-[#00AFC1] text-white font-sans font-bold text-sm hover:bg-[#009AAA]">Buscar</button>
+          </form>
+        </div>
       </div>
     </section>
 
