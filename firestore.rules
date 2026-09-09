@@ -1,16 +1,48 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    function isModerator() {
+    function isOwner() {
       return request.auth != null
-        && (request.auth.token.email == 'angeloyeshuac@gmail.com'
-          || exists(/databases/$(database)/documents/moderators/$(request.auth.token.email)));
+        && request.auth.token.email in ['angeloyeshuac@gmail.com', 'angcalderon@estudiantec.cr'];
+    }
+
+    function isModerator() {
+      return isOwner()
+        || (request.auth != null && exists(/databases/$(database)/documents/moderators/$(request.auth.token.email)));
+    }
+
+    function isAsociado() {
+      return isOwner()
+        || (request.auth != null && exists(/databases/$(database)/documents/padron/$(request.auth.token.email)));
+    }
+
+    function isJunta() {
+      return isOwner()
+        || (request.auth != null && exists(/databases/$(database)/documents/junta/$(request.auth.token.email)));
+    }
+
+    function isFiscalia() {
+      return isOwner()
+        || (request.auth != null && exists(/databases/$(database)/documents/fiscalia/$(request.auth.token.email)));
     }
 
     match /moderators/{email} {
       allow read: if isModerator();
       allow create, delete: if isModerator();
       allow update: if isModerator();
+    }
+
+    match /padron/{email} {
+      allow read, create, update, delete: if isJunta();
+    }
+
+    match /junta/{email} {
+      allow read, create, update, delete: if isJunta();
+    }
+
+    match /fiscalia/{email} {
+      allow read: if isJunta() || isFiscalia();
+      allow create, update, delete: if isJunta();
     }
 
     match /resources/{resourceId} {

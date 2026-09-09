@@ -16,7 +16,7 @@ service firebase.storage {
           'application/octet-stream'
         ];
       allow delete: if request.auth != null
-        && request.auth.token.email == 'angeloyeshuac@gmail.com';
+        && request.auth.token.email in ['angeloyeshuac@gmail.com', 'angcalderon@estudiantec.cr'];
     }
   }
 }
