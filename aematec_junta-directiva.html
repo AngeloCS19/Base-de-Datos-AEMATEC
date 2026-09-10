@@ -12,7 +12,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap"
     rel="stylesheet">
-  <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Montserrat', 'sans-serif'], serif: ['Source Serif 4', 'serif'] } } } }</script>
+  <script src="assets/firebase-config.js"></script>
   <style>
     @media (max-width: 767px) {
       body[class~="w-[1440px]"] { width: 100% !important; max-width: 100%; overflow-x: hidden; }
@@ -20,42 +20,20 @@
       html, body { max-width: 100%; }
       header > div, main > section > div { width: calc(100% - 2rem) !important; margin-left: auto; margin-right: auto; }
       header { height: auto !important; padding: 1rem 0; }
-      header > div { position: relative; display: grid !important; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.75rem; padding-left: 0.25rem; padding-right: 0.25rem; }
+      header > div { position: relative; display: grid !important; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.75rem; }
       header > div > a { display: contents; }
       header > div > a img { grid-column: 1; width: 92px; }
       header > div > a > div { display: none; }
       header > div > a > span { grid-column: 2; min-width: 0; overflow: hidden; font-size: 0.82rem; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
-      #mobile-menu-toggle { display: flex; grid-column: 3; margin-left: 0; }
+      #mobile-menu-toggle { display: flex; grid-column: 3; }
       header nav { display: none !important; grid-column: 1 / -1; width: 100%; flex-direction: column; align-items: stretch; gap: 0.5rem !important; padding-top: 0.75rem; border-top: 1px solid #D8E3E9; }
       header nav.is-open { display: flex !important; }
       header nav a { width: 100%; padding: 0.7rem 0; font-size: 0.8rem; }
-    }
-    @media (min-width: 768px) and (max-width: 1279px) {
-      body[class~="w-[1440px]"] { width: 100% !important; max-width: 100%; overflow-x: hidden; }
-      [class~="w-[1240px]"] { width: auto !important; max-width: none; }
-      html, body { max-width: 100%; }
-      header > div, main > section > div { width: calc(100% - 4rem) !important; margin-left: auto; margin-right: auto; }
-    }
-    @media (min-width: 768px) {
-      body[class~="w-[1440px]"] { width: 100% !important; max-width: 100%; overflow-x: hidden; }
-      [class~="w-[1240px]"] { width: min(1240px, calc(100% - clamp(2rem, 8vw, 12.5rem))) !important; max-width: none; }
-    }
-    header nav a,
-    header > div > a {
-      transition: transform 180ms ease, color 180ms ease, background-color 180ms ease;
-      transform-origin: center;
-    }
-    header nav a:hover,
-    header nav a:focus-visible,
-    header > div > a:hover,
-    header > div > a:focus-visible {
-      transform: scale(1.04);
-    }
-    @media (prefers-reduced-motion: reduce) {
-      header nav a, header > div > a { transition: none; }
+      main { padding-top: 2rem; }
     }
   </style>
   <title>Junta Directiva — AEMATEC</title>
+  <script src="assets/firebase-config.js"></script>
 </head>
 
 <body class="w-[1440px] min-h-screen bg-[#F4F8FA] text-[#0D2B45] font-serif" style="background-image: radial-gradient(circle at 12% 18%, rgba(0, 175, 193, 0.13) 0, rgba(0, 175, 193, 0.13) 1.2px, transparent 1.8px), radial-gradient(circle at 84% 72%, rgba(13, 43, 69, 0.09) 0, rgba(13, 43, 69, 0.09) 1.2px, transparent 1.8px); background-size: 28px 28px, 36px 36px;">
@@ -75,28 +53,75 @@
         <a href="aematec_inventario.html" class="text-[#405769] hover:text-[#00A6B8]">Inventario</a>
         <a href="aematec_junta-directiva.html" class="text-[#00A6B8] border-b-2 border-[#00B5C8] py-2">Junta Directiva</a>
         <a href="aematec_tramites.html"
-          class="h-11 px-5 rounded-[10px] bg-[#0D2B45] hover:bg-[#164563] text-white flex items-center gap-2 shadow-sm">
+          class="h-11 px-5 rounded-[10px] bg-[#0D2B45] text-white flex items-center gap-2 shadow-sm hover:bg-[#164563]">
           <i class="fa-solid fa-file-signature text-[#39C7D5]"></i> Trámites
         </a>
       </nav>
     </div>
   </header>
 
-  <main data-design-id="main-aematec" class="flex-1">
-    <section class="w-[1240px] mx-auto py-[96px] text-center">
-      <div class="mx-auto flex h-[88px] w-[88px] items-center justify-center rounded-full bg-[#E6F8FA] text-[#009CAD] text-[34px]">
-        <i class="fa-solid fa-users"></i>
+  <main data-design-id="main-aematec">
+    <section class="w-[1240px] mx-auto py-[64px]">
+      <div class="mb-10">
+        <p class="font-sans text-xs font-bold uppercase tracking-[0.18em] text-[#00A6B8]">Equipo de liderazgo</p>
+        <h1 class="font-sans text-[40px] font-bold tracking-[-0.02em] mt-2">Junta Directiva</h1>
+        <p class="mt-4 text-[#5B6E7B] max-w-[640px] leading-7">Los integrantes de la Junta Directiva son el corazón de la asociación. Aquí podrás conocerlos y encontrar los medios para comunicarte.</p>
       </div>
-      <p class="mt-7 font-sans text-xs font-bold uppercase tracking-[0.18em] text-[#00A6B8]">Próximamente</p>
-      <h1 class="mt-2 font-sans text-[34px] font-bold tracking-[-0.02em]">Junta Directiva</h1>
-      <p class="mt-4 max-w-[560px] mx-auto text-[#5B6E7B] leading-7">Aquí conocerás a los integrantes de la Junta Directiva y los medios oficiales de comunicación de la asociación.</p>
-      <a href="index.html" class="mt-8 inline-flex items-center gap-2 font-sans text-sm font-bold text-[#008F9E] hover:text-[#00A6B8]">
-        <i class="fa-solid fa-arrow-left"></i> Volver al inicio
-      </a>
+
+      <div class="grid grid-cols-2 gap-6 mb-12">
+        <div class="rounded-[16px] border border-[#D8E3E9] bg-white p-6 shadow-sm">
+          <h2 class="font-sans font-bold text-lg mb-4">Acceso para Junta</h2>
+          <p class="text-sm text-[#5B6E7B] mb-5">Si eres miembro de la Junta, accede al panel para administrar asociados, inventario y comunicaciones.</p>
+          <a href="aematec_junta-panel.html" class="inline-flex items-center gap-2 h-11 px-5 rounded-[9px] bg-[#0D2B45] text-white font-sans text-sm font-bold hover:bg-[#164563]">
+            <i class="fa-solid fa-key"></i> Ir al panel
+          </a>
+        </div>
+
+        <div class="rounded-[16px] border border-[#D8E3E9] bg-white p-6 shadow-sm">
+          <h2 class="font-sans font-bold text-lg mb-4">Medios de contacto</h2>
+          <div id="medios-contacto" class="space-y-3">
+            <div class="flex items-center gap-3">
+              <i class="fa-solid fa-envelope text-[#00A6B8] w-6"></i>
+              <a id="contacto-email" href="#" class="text-sm text-[#0D2B45] hover:text-[#00A6B8] font-semibold">Cargando...</a>
+            </div>
+            <div class="flex items-center gap-3">
+              <i class="fa-solid fa-phone text-[#00A6B8] w-6"></i>
+              <span id="contacto-phone" class="text-sm text-[#0D2B45]">Cargando...</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-[16px] border border-[#D8E3E9] bg-white p-6 shadow-sm">
+          <h2 class="font-sans font-bold text-lg mb-4">Síguenos</h2>
+          <div id="medios-difusion" class="grid grid-cols-3 gap-4">
+            <a id="link-whatsapp" href="#" target="_blank" rel="noopener" class="flex flex-col items-center gap-2 p-3 rounded-[12px] hover:bg-[#F0F4F7] transition">
+              <i class="fa-brands fa-whatsapp text-2xl text-[#3B8F5B]"></i>
+              <span class="text-xs font-sans font-bold">WhatsApp</span>
+            </a>
+            <a id="link-instagram" href="#" target="_blank" rel="noopener" class="flex flex-col items-center gap-2 p-3 rounded-[12px] hover:bg-[#F0F4F7] transition">
+              <i class="fa-brands fa-instagram text-2xl text-[#E1306C]"></i>
+              <span class="text-xs font-sans font-bold">Instagram</span>
+            </a>
+            <a id="link-telegram" href="#" target="_blank" rel="noopener" class="flex flex-col items-center gap-2 p-3 rounded-[12px] hover:bg-[#F0F4F7] transition">
+              <i class="fa-brands fa-telegram text-2xl text-[#0088cc]"></i>
+              <span class="text-xs font-sans font-bold">Telegram</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-[16px] border border-[#D8E3E9] bg-white p-6 shadow-sm">
+        <h2 class="font-sans font-bold text-lg mb-4">Integrantes actuales</h2>
+        <p class="text-sm text-[#5B6E7B] mb-5">La información de los integrantes de la Junta se completa desde el panel de administración.</p>
+        <div class="text-center py-8 text-[#607480]">
+          <i class="fa-solid fa-hourglass-end text-3xl mb-3"></i>
+          <p class="text-sm">Cargando información...</p>
+        </div>
+      </div>
     </section>
   </main>
 
-  <footer data-design-id="footer-main-8c24e1" class="bg-[#0D2B45] text-white">
+  <footer data-design-id="footer-main-8c24e1" class="bg-[#0D2B45] text-white mt-16">
     <div class="w-[1240px] mx-auto py-9 flex items-center justify-between">
       <div class="flex items-center gap-4"><img src="assets/logo-aematec.svg" alt="AEMATEC"
           class="w-[125px] brightness-0 invert"><span
@@ -107,6 +132,7 @@
       </div>
     </div>
   </footer>
+
   <script>
     const mobileMenuToggle = document.querySelector("#mobile-menu-toggle");
     const primaryNavigation = document.querySelector("#primary-navigation");
@@ -117,6 +143,39 @@
       mobileMenuToggle.innerHTML = `<i class="fa-solid ${isOpen ? "fa-xmark" : "fa-bars"}"></i>`;
     });
   </script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const app = initializeApp(window.AEMATEC_FIREBASE_CONFIG);
+    const db = getFirestore(app);
+
+    async function loadMedios() {
+      try {
+        const doc_snap = await getDoc(doc(db, "config", "medios_oficiales"));
+        const data = doc_snap.exists() ? doc_snap.data() : {};
+        
+        const email = data.email || "aematec@estudiantec.cr";
+        const phone = data.phone || "2550-2463";
+        const whatsapp = data.whatsapp || "https://chat.whatsapp.com/HyBk6tUHyf44MlURrVgiTi";
+        const instagram = data.instagram || "https://www.instagram.com/aematec?stkn=enY1bDVmY3p1a3J4";
+        const telegram = data.telegram || "https://t.me/comunidadmatec";
+
+        document.querySelector("#contacto-email").href = `mailto:${email}`;
+        document.querySelector("#contacto-email").textContent = email;
+        document.querySelector("#contacto-phone").textContent = phone;
+        
+        document.querySelector("#link-whatsapp").href = whatsapp;
+        document.querySelector("#link-instagram").href = instagram;
+        document.querySelector("#link-telegram").href = telegram;
+      } catch (error) {
+        console.error("Error cargando medios:", error);
+      }
+    }
+
+    loadMedios();
+  </script>'
 </body>
 
 </html>

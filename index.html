@@ -12,6 +12,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap"
     rel="stylesheet">
+  <script src="assets/firebase-config.js"></script>
   <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Montserrat', 'sans-serif'], serif: ['Source Serif 4', 'serif'] } } } }</script>
   <style>
     @media (max-width: 767px) {
@@ -177,13 +178,10 @@
           <p class="font-sans text-xs font-bold uppercase tracking-[0.18em] text-[#00A6B8]">Medios Oficiales</p>
           <h2 class="font-sans text-[30px] font-bold mt-2">Canales oficiales de comunicación</h2>
         </div>
-        <div class="grid grid-cols-4 gap-5">
-          <div class="rounded-[16px] border border-[#D8E3E9] bg-white p-6"><i class="fa-solid fa-envelope text-2xl text-[#00A6B8]"></i><h3 class="mt-4 font-sans font-bold">Correo institucional</h3><p class="mt-2 text-sm text-[#627683]">@estudiantec.cr</p></div>
-          <div class="rounded-[16px] border border-[#D8E3E9] bg-white p-6"><i class="fa-brands fa-telegram text-2xl text-[#486398]"></i><h3 class="mt-4 font-sans font-bold">Telegram</h3><p class="mt-2 text-sm text-[#627683]">Canal oficial de la asociación</p></div>
-          <div class="rounded-[16px] border border-[#D8E3E9] bg-white p-6"><i class="fa-brands fa-whatsapp text-2xl text-[#3B8F5B]"></i><h3 class="mt-4 font-sans font-bold">WhatsApp</h3><p class="mt-2 text-sm text-[#627683]">Grupo oficial de la asociación</p></div>
-          <div class="rounded-[16px] border border-[#D8E3E9] bg-white p-6"><i class="fa-solid fa-display text-2xl text-[#946316]"></i><h3 class="mt-4 font-sans font-bold">TECDigital</h3><p class="mt-2 text-sm text-[#627683]">Subgrupo "Estudiantes EMA"</p></div>
+        <div id="medios-grid" class="grid grid-cols-4 gap-5">
+          <div class="rounded-[16px] border border-[#D8E3E9] bg-white p-6"><i class="fa-solid fa-spinner animate-spin text-2xl text-[#00A6B8]"></i><p class="mt-4 text-sm text-[#627683]">Cargando...</p></div>
         </div>
-        <p class="mt-6 text-sm text-[#627683]">Este sitio también es un Medio Oficial de la asociación. Los enlaces directos a cada canal se completan desde el panel de Junta Directiva.</p>
+        <p class="mt-6 text-sm text-[#627683]">Este sitio también es un Medio Oficial de la asociación.</p>
       </div>
     </section>
   </main>
@@ -208,6 +206,41 @@
       mobileMenuToggle.setAttribute("aria-label", isOpen ? "Cerrar menú" : "Abrir menú");
       mobileMenuToggle.innerHTML = `<i class="fa-solid ${isOpen ? "fa-xmark" : "fa-bars"}"></i>`;
     });
+  </script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const app = initializeApp(window.AEMATEC_FIREBASE_CONFIG);
+    const db = getFirestore(app);
+
+    async function loadMedios() {
+      try {
+        const doc_snap = await getDoc(doc(db, "config", "medios_oficiales"));
+        const data = doc_snap.exists() ? doc_snap.data() : {};
+        
+        const email = data.email || "aematec@estudiantec.cr";
+        const phone = data.phone || "2550-2463";
+        const whatsapp = data.whatsapp || "https://chat.whatsapp.com/HyBk6tUHyf44MlURrVgiTi";
+        const instagram = data.instagram || "https://www.instagram.com/aematec?stkn=enY1bDVmY3p1a3J4";
+        const telegram = data.telegram || "https://t.me/comunidadmatec";
+
+        const grid = document.querySelector("#medios-grid");
+        grid.innerHTML = `
+          <a href="mailto:${email}" class="rounded-[16px] border border-[#D8E3E9] bg-white p-6 hover:border-[#00B5C8] transition"><i class="fa-solid fa-envelope text-2xl text-[#00A6B8]"></i><h3 class="mt-4 font-sans font-bold">Correo institucional</h3><p class="mt-2 text-sm text-[#627683]">${email}</p></a>
+          <a href="${telegram}" target="_blank" rel="noopener" class="rounded-[16px] border border-[#D8E3E9] bg-white p-6 hover:border-[#00B5C8] transition"><i class="fa-brands fa-telegram text-2xl text-[#486398]"></i><h3 class="mt-4 font-sans font-bold">Telegram</h3><p class="mt-2 text-sm text-[#627683]">Canal oficial</p></a>
+          <a href="${whatsapp}" target="_blank" rel="noopener" class="rounded-[16px] border border-[#D8E3E9] bg-white p-6 hover:border-[#00B5C8] transition"><i class="fa-brands fa-whatsapp text-2xl text-[#3B8F5B]"></i><h3 class="mt-4 font-sans font-bold">WhatsApp</h3><p class="mt-2 text-sm text-[#627683]">Grupo oficial</p></a>
+          <a href="${instagram}" target="_blank" rel="noopener" class="rounded-[16px] border border-[#D8E3E9] bg-white p-6 hover:border-[#00B5C8] transition"><i class="fa-brands fa-instagram text-2xl text-[#E1306C]"></i><h3 class="mt-4 font-sans font-bold">Instagram</h3><p class="mt-2 text-sm text-[#627683]">@aematec</p></a>
+        `;
+      } catch (error) {
+        console.error("Error cargando medios:", error);
+        const grid = document.querySelector("#medios-grid");
+        grid.innerHTML = '<p class="col-span-4 text-center text-sm text-[#627683]">No se pudieron cargar los medios en este momento.</p>';
+      }
+    }
+
+    loadMedios();
   </script>
 </body>
 

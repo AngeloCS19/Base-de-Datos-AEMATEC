@@ -45,6 +45,11 @@ service cloud.firestore {
       allow create, update, delete: if isJunta();
     }
 
+    match /config/{document=**} {
+      allow read: if true;
+      allow write: if isJunta();
+    }
+
     match /resources/{resourceId} {
       allow read: if resource.data.published == true
         || isModerator();
